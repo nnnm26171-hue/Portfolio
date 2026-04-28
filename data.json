@@ -1,0 +1,43 @@
+{
+  "personal": {
+    "name": "ชื่อ-นามสกุลของคุณ",
+    "title": "Position / Role",
+    "university": "มหาวิทยาลัย / คณะ",
+    "bio": "แนะนำตัวเองสั้นๆ เกี่ยวกับความสนใจและเป้าหมาย",
+    "avatar": "",
+    "skills": ["Skill 1", "Skill 2", "Skill 3"],
+    "contact": {
+      "email": "email@example.com",
+      "github": "",
+      "linkedin": "",
+      "website": ""
+    }
+  },
+  "experience": {
+    "production": [
+      {
+        "id": "1",
+        "name": "ชื่อโปรเจกต์",
+        "role": "Full-Stack Developer",
+        "description": "คำอธิบายโปรเจกต์",
+        "year": "2024",
+        "tech": ["React"],
+        "link": "",
+        "img": ""
+      }
+    ],
+    "competition": [],
+    "academic": [],
+    "personal": [],
+    "opensource": []
+  },
+  "selfDev": {
+    "certs": [],
+    "workshops": []
+  },
+  "awards": {
+    "competitions": [],
+    "honors": []
+  },
+  "leadership": []
+}
