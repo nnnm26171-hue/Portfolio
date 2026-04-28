@@ -1,6 +1,12 @@
 'use strict';
 const uid = () => Math.random().toString(36).slice(2, 9);
 
+// --- DATABASE CONFIG ---
+const SUPABASE_URL = 'https://odyrnnzcixwnpcirtaad.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_BFWtCpz_nUWiixMnbjGObQ_ApM9I20l';
+const supabase = (SUPABASE_URL !== 'YOUR_SUPABASE_URL') ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+// -----------------------
+
 const DEFAULT = {
   personal: { name: 'ชื่อ-นามสกุล', title: 'Position / Role', university: 'มหาวิทยาลัย / คณะ', bio: 'แนะนำตัวเองสั้นๆ เกี่ยวกับความสนใจและเป้าหมาย', avatar: '', skills: ['Skill 1', 'Skill 2', 'Skill 3'], contact: { email: 'email@example.com', github: '', linkedin: '', website: '' } },
   experience: {
@@ -12,17 +18,65 @@ const DEFAULT = {
   leadership: []
 };
 
-let data = JSON.parse(localStorage.getItem('portfolio') || 'null') || JSON.parse(JSON.stringify(DEFAULT));
-// Migration: If old data was array, move to production
-if (Array.isArray(data.experience)) {
-  const old = data.experience;
-  data.experience = { production: old, competition: [], academic: [], personal: [], opensource: [] };
-  localStorage.setItem('portfolio', JSON.stringify(data));
+let data = JSON.parse(JSON.stringify(DEFAULT));
+
+async function loadData() {
+  // 1. Try to fetch from Supabase (Real-time DB)
+  if (supabase) {
+    try {
+      const { data: dbData, error } = await supabase
+        .from('portfolio_data')
+        .select('content')
+        .eq('id', 'main_portfolio')
+        .single();
+      
+      if (dbData && dbData.content) {
+        data = dbData.content;
+        console.log('Loaded from Cloud!');
+        renderAll();
+        return;
+      }
+    } catch (e) { console.log('Cloud fetch failed, trying local...'); }
+  }
+
+  // 2. Fallback: Try to fetch from data.json (Static)
+  try {
+    const response = await fetch('data.json');
+    if (response.ok) {
+      const remoteData = await response.json();
+      data = remoteData;
+    }
+  } catch (e) { console.log('Using default data'); }
+
+  // 3. Last fallback: LocalStorage (for the editor)
+  const localData = localStorage.getItem('portfolio');
+  if (localData) {
+    data = JSON.parse(localData);
+  }
+
+  // Migration: If old data was array
+  if (Array.isArray(data.experience)) {
+    const old = data.experience;
+    data.experience = { production: old, competition: [], academic: [], personal: [], opensource: [] };
+  }
+  
+  renderAll();
 }
 
 let editMode = false, currentTab = 'production', currentSection = 'home', modalSave = null;
 
-const save = () => localStorage.setItem('portfolio', JSON.stringify(data));
+const save = async () => {
+  localStorage.setItem('portfolio', JSON.stringify(data));
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from('portfolio_data')
+        .upsert({ id: 'main_portfolio', content: data });
+      if (error) console.error('DB Save Error:', error);
+      else console.log('Synced to Cloud!');
+    } catch (e) { console.error('Sync failed', e); }
+  }
+};
 const toast = (msg) => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); };
 const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -335,7 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (localStorage.getItem('portfolio_theme') === 'light') {
     document.body.classList.add('light-mode');
   }
-  renderAll();
+  loadData();
   showSection('home');
 
   // High-Performance Canvas Sparks & Background Dust
