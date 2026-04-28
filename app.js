@@ -4,7 +4,7 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 // --- DATABASE CONFIG ---
 const SUPABASE_URL = 'https://odyrnnzcixwnpcirtaad.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_BFWtCpz_nUWiixMnbjGObQ_ApM9I20l';
-const supabase = (SUPABASE_URL !== 'YOUR_SUPABASE_URL') ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+const dbClient = (SUPABASE_URL.includes('supabase.co')) ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 // -----------------------
 
 const DEFAULT = {
@@ -27,9 +27,9 @@ async function loadData() {
   data = JSON.parse(JSON.stringify(DEFAULT));
 
   // 2. Try to fetch from Supabase (Real-time DB)
-  if (supabase) {
+  if (dbClient) {
     try {
-      const { data: dbData, error } = await supabase
+      const { data: dbData, error } = await dbClient
         .from('portfolio_data')
         .select('content')
         .eq('id', 'main_portfolio')
@@ -75,9 +75,9 @@ let editMode = false, currentTab = 'production', currentSection = 'home', modalS
 
 const save = async () => {
   localStorage.setItem('portfolio', JSON.stringify(data));
-  if (supabase) {
+  if (dbClient) {
     try {
-      const { error } = await supabase
+      const { error } = await dbClient
         .from('portfolio_data')
         .upsert({ id: 'main_portfolio', content: data });
       if (error) console.error('DB Save Error:', error);
