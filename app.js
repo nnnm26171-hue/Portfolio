@@ -4,7 +4,11 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 // --- DATABASE CONFIG ---
 const SUPABASE_URL = 'https://odyrnnzcixwnpcirtaad.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_BFWtCpz_nUWiixMnbjGObQ_ApM9I20l';
-const dbClient = (SUPABASE_URL.includes('supabase.co')) ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+// เช็คความปลอดภัยก่อนสร้าง Client
+let dbClient = null;
+if (typeof supabase !== 'undefined' && SUPABASE_URL.includes('supabase.co')) {
+  dbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
 // -----------------------
 
 const DEFAULT = {
