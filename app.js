@@ -21,7 +21,12 @@ const DEFAULT = {
 let data = JSON.parse(JSON.stringify(DEFAULT));
 
 async function loadData() {
-  // 1. Try to fetch from Supabase (Real-time DB)
+  console.log('Loading data...');
+  
+  // 1. Start with DEFAULT
+  data = JSON.parse(JSON.stringify(DEFAULT));
+
+  // 2. Try to fetch from Supabase (Real-time DB)
   if (supabase) {
     try {
       const { data: dbData, error } = await supabase
@@ -33,28 +38,31 @@ async function loadData() {
       if (dbData && dbData.content) {
         data = dbData.content;
         console.log('Loaded from Cloud!');
-        renderAll();
-        return;
+      } else {
+        console.log('No cloud data found, checking local...');
       }
-    } catch (e) { console.log('Cloud fetch failed, trying local...'); }
+    } catch (e) { console.log('Cloud fetch error', e); }
   }
 
-  // 2. Fallback: Try to fetch from data.json (Static)
-  try {
-    const response = await fetch('data.json');
-    if (response.ok) {
-      const remoteData = await response.json();
-      data = remoteData;
-    }
-  } catch (e) { console.log('Using default data'); }
-
-  // 3. Last fallback: LocalStorage (for the editor)
+  // 3. If cloud is empty, try LocalStorage
   const localData = localStorage.getItem('portfolio');
-  if (localData) {
+  if (localData && (!supabase || data.personal.name === DEFAULT.personal.name)) {
     data = JSON.parse(localData);
+    console.log('Loaded from LocalStorage');
   }
 
-  // Migration: If old data was array
+  // 4. Fallback: Try to fetch from data.json (Static)
+  if (data.personal.name === DEFAULT.personal.name) {
+    try {
+      const response = await fetch('data.json');
+      if (response.ok) {
+        data = await response.json();
+        console.log('Loaded from data.json');
+      }
+    } catch (e) { }
+  }
+
+  // Migration & Render
   if (Array.isArray(data.experience)) {
     const old = data.experience;
     data.experience = { production: old, competition: [], academic: [], personal: [], opensource: [] };
