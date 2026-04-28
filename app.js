@@ -21,51 +21,36 @@ const DEFAULT = {
 let data = JSON.parse(JSON.stringify(DEFAULT));
 
 async function loadData() {
-  console.log('Loading data...');
-  
-  // 1. Start with DEFAULT
-  data = JSON.parse(JSON.stringify(DEFAULT));
+  console.log('Start loading data...');
+  try {
+    // 1. Default first
+    data = JSON.parse(JSON.stringify(DEFAULT));
 
-  // 2. Try to fetch from Supabase (Real-time DB)
-  if (dbClient) {
-    try {
-      const { data: dbData, error } = await dbClient
-        .from('portfolio_data')
-        .select('content')
-        .eq('id', 'main_portfolio')
-        .single();
-      
-      if (dbData && dbData.content) {
-        data = dbData.content;
-        console.log('Loaded from Cloud!');
-      } else {
-        console.log('No cloud data found, checking local...');
-      }
-    } catch (e) { console.log('Cloud fetch error', e); }
-  }
+    // 2. Local Storage (Quick load)
+    const localData = localStorage.getItem('portfolio');
+    if (localData) {
+      data = JSON.parse(localData);
+      console.log('Loaded from LocalStorage');
+    }
 
-  // 3. If cloud is empty, try LocalStorage
-  const localData = localStorage.getItem('portfolio');
-  if (localData && (!supabase || data.personal.name === DEFAULT.personal.name)) {
-    data = JSON.parse(localData);
-    console.log('Loaded from LocalStorage');
-  }
-
-  // 4. Fallback: Try to fetch from data.json (Static)
-  if (data.personal.name === DEFAULT.personal.name) {
-    try {
-      const response = await fetch('data.json');
-      if (response.ok) {
-        data = await response.json();
-        console.log('Loaded from data.json');
-      }
-    } catch (e) { }
-  }
-
-  // Migration & Render
-  if (Array.isArray(data.experience)) {
-    const old = data.experience;
-    data.experience = { production: old, competition: [], academic: [], personal: [], opensource: [] };
+    // 3. Try Supabase (Sync)
+    if (dbClient) {
+      try {
+        const { data: dbData, error } = await dbClient
+          .from('portfolio_data')
+          .select('content')
+          .eq('id', 'main_portfolio')
+          .single();
+        
+        if (dbData && dbData.content) {
+          data = dbData.content;
+          console.log('Updated from Cloud!');
+        }
+      } catch (e) { console.error('Cloud Error:', e); }
+    }
+  } catch (err) {
+    console.error('Fatal Load Error:', err);
+    data = JSON.parse(JSON.stringify(DEFAULT));
   }
   
   renderAll();
