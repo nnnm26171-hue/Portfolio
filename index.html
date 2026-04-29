@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio (V4 - Ultra Clean)</title>
+  <title>My Portfolio (V5 - Ironclad Center)</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap"
     rel="stylesheet">
@@ -344,23 +344,29 @@
       margin: 0 auto;
     }
 
-    .project-card,
-    .activity-card,
-    .item-row-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 32px;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transition: 0.3s;
+    .project-card, .activity-card, .item-row-card { 
+      background: rgba(255,255,255,0.03); 
+      border: 1px solid rgba(255,255,255,0.1); 
+      border-radius: 32px; 
+      padding: 2.5rem; 
+      display: flex !important; 
+      flex-direction: column !important; 
+      align-items: center !important; 
+      text-align: center !important; 
+      transition: 0.3s; 
+      width: 100%;
     }
-
-    .project-card:hover {
-      transform: translateY(-10px);
-      border-color: var(--primary);
+    .project-content { 
+      width: 100% !important; 
+      display: flex !important; 
+      flex-direction: column !important; 
+      align-items: center !important; 
+      text-align: center !important; 
+    }
+    .project-desc { 
+      text-align: center !important; 
+      margin: 0 auto !important; 
+      max-width: 100% !important;
     }
 
     .project-img-circle,
@@ -679,14 +685,14 @@
       container.innerHTML = arr.map(p => `
           <div class="project-card">
               ${p.img ? `<img class="project-img-circle" src="${esc(p.img)}">` : `<div class="project-img-circle" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05)">📁</div>`}
-              <div class="project-content" style="width:100%; display:flex; flex-direction:column; align-items:center; text-align:center;">
-                  <h3 style="margin:0; font-size:1.4rem; font-weight:800; color:#fff;">${esc(p.name)}</h3>
-                  <div style="margin:0.3rem 0; opacity:0.6; font-size:0.9rem; font-weight:600;">${esc(p.year)}</div>
-                  <span class="project-role" style="color:var(--cyan); font-weight:800; font-size:0.9rem; display:block; margin-bottom:0.8rem; text-transform:uppercase; letter-spacing:1px;">${esc(p.role)}</span>
-                  <p class="project-desc" style="color:rgba(255,255,255,0.7); font-size:0.95rem; line-height:1.6; max-width:600px;">${esc(p.description)}</p>
-                  <div class="card-actions" style="margin-top:1.5rem;">
-                      ${p.link ? `<a href="${esc(p.link)}" target="_blank" class="email-cta" style="padding:0.6rem 1.5rem; font-size:0.85rem;">View Result ↗</a>` : ''}
-                      ${editMode ? `<button onclick="openEditProject('${p.id}')" style="margin-left:1rem; background:none; border:none; color:var(--primary); cursor:pointer; font-weight:800;">✏ Edit</button>` : ''}
+              <div class="project-content" style="width:100% !important; display:flex !important; flex-direction:column !important; align-items:center !important; text-align:center !important;">
+                  <h3 style="margin:0; font-size:1.5rem; font-weight:900; color:#fff; text-align:center !important; width:100% !important;">${esc(p.name)}</h3>
+                  <div style="margin:0.5rem 0; opacity:0.6; font-size:0.95rem; font-weight:700; text-align:center !important; width:100% !important;">${esc(p.year)}</div>
+                  <span class="project-role" style="color:var(--cyan); font-weight:900; font-size:0.9rem; display:block; margin-bottom:1rem; text-transform:uppercase; letter-spacing:2px; text-align:center !important; width:100% !important;">${esc(p.role)}</span>
+                  <p class="project-desc" style="color:rgba(255,255,255,0.8); font-size:1rem; line-height:1.7; max-width:100% !important; text-align:center !important; margin: 0 auto !important;">${esc(p.description)}</p>
+                  <div class="card-actions" style="margin-top:2rem; display:flex; justify-content:center; width:100%;">
+                      ${p.link ? `<a href="${esc(p.link)}" target="_blank" class="email-cta" style="padding:0.7rem 2rem; font-size:0.9rem;">View Result ↗</a>` : ''}
+                      ${editMode ? `<button onclick="openEditProject('${p.id}')" style="margin-left:1.5rem; background:none; border:none; color:var(--primary); cursor:pointer; font-weight:900; font-size:1rem;">✏ Edit</button>` : ''}
                   </div>
               </div>
           </div>`).join('');
