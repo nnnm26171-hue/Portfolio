@@ -124,9 +124,14 @@ a, button, .tab-btn, .edit-btn-mini, [onclick] {
   font-size: 2.8rem;
   font-weight: 900;
   margin: 0;
-  background: linear-gradient(to right, #fff, var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  padding: 0;
+  line-height: 1.2;
+  display: block !important;
+  background: linear-gradient(to right, #ffffff, var(--cyan)) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important; /* สำคัญสำหรับ Safari */
 }
 .section-header-pro .line {
   width: 80px;
@@ -763,9 +768,10 @@ body.light-mode #heroName,
 body.light-mode .section-header-pro h2 {
   background: linear-gradient(135deg, #0f172a, var(--primary)) !important;
   -webkit-background-clip: text !important;
+  background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
   color: transparent !important;
-  display: block;
+  display: block !important;
 }
 
 body.light-mode h1, 
