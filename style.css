@@ -648,32 +648,45 @@ body.light-mode .modal-content {
 }
 .edit-bar button { background: transparent; border: none; color: #fff; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
 
-/* ========== DIMMED MILKY WAY (SOFTER & CLEAR TEXT) ========== */
-body.light-mode {
-  background-color: #cbd5e1 !important;
+/* ========== HIGH PERFORMANCE SPACE BACKGROUND (CSS ONLY) ========== */
+#spark-canvas { display: none !important; } /* ปิด Canvas ทิ้งถาวรเพื่อความเร็ว */
+
+body {
+  background-color: #020205;
   background-image: 
-    radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.1) 0%, transparent 70%),
-    radial-gradient(circle at 80% 70%, rgba(129, 140, 248, 0.1) 0%, transparent 70%),
-    radial-gradient(circle at 50% 50%, rgba(203, 213, 225, 0.8) 0%, #94a3b8 100%) !important;
-  background-attachment: fixed !important;
+    radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 150px 50px, #fff, rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 50px 160px, #fff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 80px 120px, #fff, rgba(0,0,0,0));
+  background-size: 200px 200px; /* จุดดาวแบบ CSS ลื่น 100% */
+  background-attachment: fixed;
+  cursor: auto !important;
+}
+
+/* บังคับชื่อให้เห็นชัด 100% */
+#heroName {
+  color: #ffffff !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+/* ========== MILKY WAY LIGHT MODE (SOFTER & CLEAR) ========== */
+body.light-mode {
+  background-color: #f1f5f9 !important;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, #cbd5e1 100%) !important;
   color: #000000 !important;
 }
 
 body.light-mode #heroName {
-  color: #000000 !important; /* บังคับชื่อดำเข้ม */
+  color: #000000 !important; /* ชื่อดำสนิท 100% */
   text-shadow: none !important;
-  opacity: 1 !important;
 }
 
-body.light-mode .card-glass, 
-body.light-mode .project-card, 
-body.light-mode .skill-card,
-body.light-mode .experience-card,
-body.light-mode .award-card {
-  background: rgba(255, 255, 255, 0.5) !important; /* ลดความขาวลงอีก */
-  backdrop-filter: blur(12px) !important;
-  border: 1px solid rgba(0, 0, 0, 0.05) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+body.light-mode .card-glass {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
   color: #000000 !important;
 }
 
