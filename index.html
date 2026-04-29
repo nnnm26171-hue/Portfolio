@@ -233,17 +233,49 @@
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       
-      // FIXED ALIGNMENT: ใช้ translate3d และลบค่า offset ของขนาดตัวมันเอง
-      if(dot) dot.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`;
-      if(outline) outline.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`;
-      if(glow) glow.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`;
+      // สร้างสะเก็ดไฟที่ปลายเมาส์ (หางว่าว)
+      for (let i = 0; i < 2; i++) {
+        stars.push(new Spark(mouse.x, mouse.y));
+      }
     });
+
+    class Spark {
+      constructor(x, y) {
+        this.x = x; this.y = y;
+        this.baseX = x; this.baseY = y;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = Math.random() * 2 - 1;
+        this.speedY = Math.random() * 2 - 1;
+        this.opacity = 1;
+        this.color = Math.random() > 0.5 ? '#8b5cf6' : '#0ea5e9';
+        this.isSpark = true;
+      }
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.opacity -= 0.02;
+        if (this.size > 0.1) this.size -= 0.05;
+      }
+    }
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let i = 0; i < stars.length; i++) {
         stars[i].update();
         stars[i].draw();
+        
+        // ถ้าเป็นสะเก็ดไฟที่จางแล้ว ให้ลบออก
+        if (stars[i].isSpark && (stars[i].opacity <= 0 || stars[i].size <= 0.1)) {
+          stars.splice(i, 1); i--;
+        }
       }
       requestAnimationFrame(animate);
     }
