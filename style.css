@@ -161,12 +161,9 @@ a, button, .tab-btn, .edit-btn-mini, [onclick] {
   visibility: hidden !important;
 }
 
-/* โหมดสว่าง - บังคับขาวจั๊วะ */
+/* ลบส่วนที่บังคับขาวออก เพื่อให้ Milky Way ด้านล่างทำงานได้ */
 body.light-mode {
-  background: #ffffff !important;
-  background-color: #ffffff !important;
-  background-image: none !important;
-  color: #000000 !important;
+  transition: all 0.5s ease;
 }
 
 body.light-mode .card-glass, 

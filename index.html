@@ -233,11 +233,14 @@
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       
-      // สร้างสะเก็ดไฟสีฟ้า - ลดจำนวนลงให้ดู Smooth (เหลือแค่ 1-2 ดวงต่อการขยับ)
-      if (Math.random() > 0.5) {
+      // สร้างสะเก็ดไฟสีฟ้า - ปรับให้ชัดขึ้น
+      for (let i = 0; i < 3; i++) {
         stars.push(new Spark(mouse.x, mouse.y));
       }
     });
+
+    console.log("Space Background & Cursor Tail System Active! 🚀");
+    console.log("Secret: Double-click on your name to enter Admin Mode.");
 
     class Spark {
       constructor(x, y) {
