@@ -119,7 +119,11 @@ function renderSelfDev() {
             ${i.img ? `<img src="${esc(i.img)}" class="item-img-mini">` : ''}
             <div class="item-info">
                 <strong>${esc(i.name)}</strong> ${i.provider ? `• ${esc(i.provider)}` : ''}
-                ${editMode ? `<button class="del-small" onclick="deleteItem('${type}','${i.id}')">✕</button>` : ''}
+                ${editMode ? `
+                    <div class="item-actions">
+                        <button onclick="openEditItem('${type}','${i.id}')">✏️</button>
+                        <button onclick="deleteItem('${type}','${i.id}')">✕</button>
+                    </div>` : ''}
             </div>
         </div>`;
 
@@ -137,7 +141,11 @@ function renderAwards() {
                 ${i.img ? `<img src="${esc(i.img)}" class="item-img-mini">` : ''}
                 <div class="item-info">
                     <strong>${esc(i.result)}</strong> - ${esc(i.name)}
-                    ${editMode ? `<button class="del-small" onclick="deleteItem('competitions','${i.id}')">✕</button>` : ''}
+                    ${editMode ? `
+                        <div class="item-actions">
+                            <button onclick="openEditItem('competitions','${i.id}')">✏️</button>
+                            <button onclick="deleteItem('competitions','${i.id}')">✕</button>
+                        </div>` : ''}
                 </div>
             </div>`).join('');
     }
@@ -202,7 +210,7 @@ const g = id => document.getElementById('f_' + id)?.value || '';
 
 function openEditPersonal() {
     const p = data.personal, c = p.contact;
-    const body = fld('p_name', 'Name', p.name) + fld('p_avatar', 'Avatar URL', p.avatar) + fld('p_title', 'Title', p.title) + fld('p_uni', 'University', p.university) + fld('p_skills', 'Skills (CSV)', (p.skills||[]).join(',')) + fld('c_email', 'Email', c.email) + fld('c_github', 'GitHub', c.github) + fld('c_linkedin', 'LinkedIn', c.linkedin) + fld('c_website', 'Web', c.website);
+    const body = fld('p_name', 'Name', p.name) + fld('p_avatar', 'Avatar URL (Image)', p.avatar) + fld('p_title', 'Title', p.title) + fld('p_uni', 'University', p.university) + fld('p_skills', 'Skills (CSV)', (p.skills||[]).join(',')) + fld('c_email', 'Email', c.email) + fld('c_github', 'GitHub', c.github) + fld('c_linkedin', 'LinkedIn', c.linkedin) + fld('c_website', 'Web', c.website);
     openModal('Edit Personal', body, () => {
         p.name = g('p_name'); p.avatar = g('p_avatar'); p.title = g('p_title'); p.university = g('p_uni'); p.skills = g('p_skills').split(',').map(s=>s.trim());
         c.email = g('c_email'); c.github = g('c_github'); c.linkedin = g('c_linkedin'); c.website = g('c_website');
@@ -245,6 +253,26 @@ function openAddItem(type) {
         else if (type === 'workshop') data.selfDev.workshops.push(item);
         else if (type === 'competition_award') data.awards.competitions.push(item);
         else if (type === 'leadership') data.leadership.push(item);
+        renderAll();
+    });
+}
+
+function openEditItem(type, id) {
+    let item;
+    if (type === 'certs') item = data.selfDev.certs.find(x => x.id === id);
+    else if (type === 'workshops') item = data.selfDev.workshops.find(x => x.id === id);
+    else if (type === 'competitions') item = data.awards.competitions.find(x => x.id === id);
+    if (!item) return;
+
+    let body = '';
+    if (type === 'certs') body = fld('i_name', 'Cert Name', item.name) + fld('i_prov', 'Provider', item.provider) + fld('i_img', 'Image URL', item.img);
+    else if (type === 'workshops') body = fld('i_name', 'Workshop Name', item.name) + fld('i_img', 'Image URL', item.img);
+    else if (type === 'competitions') body = fld('i_res', 'Result', item.result) + fld('i_name', 'Award Name', item.name) + fld('i_img', 'Image URL', item.img);
+
+    openModal('Edit Item', body, () => {
+        if (type === 'certs') Object.assign(item, { name: g('i_name'), provider: g('i_prov'), img: g('i_img') });
+        else if (type === 'workshops') Object.assign(item, { name: g('i_name'), img: g('i_img') });
+        else if (type === 'competitions') Object.assign(item, { result: g('i_res'), name: g('i_name'), img: g('i_img') });
         renderAll();
     });
 }
