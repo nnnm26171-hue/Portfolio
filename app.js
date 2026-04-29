@@ -107,8 +107,14 @@ function renderProjects() {
     const arr = data.experience[currentTab] || [];
     const container = document.getElementById('projectsGrid');
     if (!container) return;
+    
+    // จัดการปุ่ม Add Project
     const addBtn = document.getElementById('addProjectBtn');
-    if (addBtn) addBtn.style.display = editMode ? 'inline-block' : 'none';
+    if (addBtn) {
+        addBtn.style.display = editMode ? 'inline-block' : 'none';
+        addBtn.onclick = openAddProject; // มั่นใจว่าผูกฟังก์ชันถูกต้อง
+    }
+    
     container.innerHTML = arr.map(p => `
         <div class="project-card">
             ${p.img ? `<img class="project-img-circle" src="${esc(p.img)}">` : `<div class="project-img-circle" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05)">📁</div>`}
@@ -129,15 +135,15 @@ function renderProjects() {
 
 function renderSelfDev() {
     const btnC = document.getElementById('addCertBtn'), btnW = document.getElementById('addWorkshopBtn');
-    if (btnC) btnC.style.display = editMode ? 'inline-block' : 'none';
-    if (btnW) btnW.style.display = editMode ? 'inline-block' : 'none';
+    if (btnC) { btnC.style.display = editMode ? 'inline-block' : 'none'; btnC.onclick = () => openAddItem('cert'); }
+    if (btnW) { btnW.style.display = editMode ? 'inline-block' : 'none'; btnW.onclick = () => openAddItem('workshop'); }
     document.getElementById('certsGrid').innerHTML = (data.selfDev.certs || []).map(i => `<div class="item-row"><span>${esc(i.name)} (${esc(i.provider)})</span> ${editMode ? `<button onclick="deleteItem('certs','${i.id}')">x</button>` : ''}</div>`).join('');
     document.getElementById('workshopsGrid').innerHTML = (data.selfDev.workshops || []).map(i => `<div class="item-row"><span>${esc(i.name)}</span> ${editMode ? `<button onclick="deleteItem('workshops','${i.id}')">x</button>` : ''}</div>`).join('');
 }
 
 function renderAwards() {
     const btnC = document.getElementById('addCompBtn');
-    if (btnC) btnC.style.display = editMode ? 'inline-block' : 'none';
+    if (btnC) { btnC.style.display = editMode ? 'inline-block' : 'none'; btnC.onclick = () => openAddItem('competition_award'); }
     const compGrid = document.getElementById('competitionsGrid');
     if (compGrid) compGrid.innerHTML = (data.awards.competitions || []).map(i => `<div class="item-row"><span>${esc(i.result)} - ${esc(i.name)}</span> ${editMode ? `<button onclick="deleteItem('competitions','${i.id}')">🗑</button>` : ''}</div>`).join('');
 }
@@ -145,7 +151,7 @@ function renderAwards() {
 function renderLeadership() {
     const container = document.getElementById('leadershipGrid');
     const btn = document.getElementById('addLeaderBtn');
-    if (btn) btn.style.display = editMode ? 'inline-block' : 'none';
+    if (btn) { btn.style.display = editMode ? 'inline-block' : 'none'; btn.onclick = () => openAddItem('leadership'); }
     if (container) {
         container.innerHTML = (data.leadership || []).map(i => `
             <div class="activity-card">
