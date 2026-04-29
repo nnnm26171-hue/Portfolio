@@ -183,15 +183,13 @@
       for (let i = 0; i < sparks.length; i++) {
         let s = sparks[i];
         s.x += s.speedX; s.y += s.speedY;
-        s.size += 0.5; // วงกลมขยายตัวออก
         s.opacity -= 0.02;
         
-        ctx.strokeStyle = s.color;
-        ctx.lineWidth = 2;
+        ctx.fillStyle = s.color;
         ctx.globalAlpha = s.opacity;
         ctx.beginPath(); 
-        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); 
-        ctx.stroke(); // วาดเป็นวงกลม (วงแหวน)
+        // วาดเป็นสี่เหลี่ยมเล็กๆ (Square Sparks) แทนวงกลม
+        ctx.fillRect(s.x, s.y, s.size, s.size); 
         
         ctx.globalAlpha = 1;
         if (s.opacity <= 0) { sparks.splice(i, 1); i--; }
