@@ -400,7 +400,7 @@ body.light-mode .btn-edit-toggle {
   box-shadow: 0 0 15px var(--primary-glow); outline: none;
 }
 
-/* ลบโค้ดส่วนที่ทำให้ Modal เป็นสีขาวในโหมดสว่างออก */
+/* บังคับหน้าต่าง Edit ให้เป็นโหมดมืด (Dark) เสมอ */
 body.light-mode .modal-content {
   background: #0d0d1a !important;
   color: #ffffff !important;
@@ -414,27 +414,6 @@ body.light-mode .modal-content {
 .btn-save:hover { transform: translateY(-3px); filter: brightness(1.1); }
 .btn-cancel { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--border); }
 .btn-cancel:hover { background: rgba(255, 68, 68, 0.1); border-color: #ef4444; color: #ef4444; }
-
-/* ปรับสีหัวข้อให้ดำสนิทในโหมดสว่าง */
-body.light-mode .f-group label {
-  color: #1a1a2e !important;
-  opacity: 1;
-}
-
-/* ปรับสีหัวข้อช่องใส่รูปให้เข้มขึ้นในโหมดสว่าง (จากเดิมที่จางมองไม่เห็น) */
-body.light-mode .f-group.img-field {
-  background: #ecfeff;
-  border-color: #0891b2;
-}
-body.light-mode .f-group.img-field label {
-  color: #0891b2 !important;
-}
-
-body.light-mode .f-group input, body.light-mode .f-group textarea {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  color: #000000;
-}
 
 .projects-grid { display: grid; gap: 1.5rem; }
 .project-card {
