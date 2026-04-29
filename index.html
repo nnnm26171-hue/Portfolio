@@ -20,6 +20,11 @@
   <div id="cursor-dot"></div>
   <div id="cursor-outline"></div>
   <div id="cursor-glow"></div>
+  
+  <!-- Shooting Stars -->
+  <div class="shooting-star star-1"></div>
+  <div class="shooting-star star-2"></div>
+  <div class="shooting-star star-3"></div>
 
   <nav class="navbar">
     <div class="nav-right-group">
@@ -148,20 +153,100 @@
   </div>
 
   <script>
-    // CURSOR MOVEMENT SCRIPT
+    // --- MAGNETIC STARFIELD & CURSOR FIXED ---
     const dot = document.getElementById('cursor-dot');
     const outline = document.getElementById('cursor-outline');
     const glow = document.getElementById('cursor-glow');
+    const canvas = document.getElementById('spark-canvas');
+    const ctx = canvas.getContext('2d');
 
-    window.addEventListener('mousemove', (e) => {
-      const { clientX: x, clientY: y } = e;
-      if(dot) dot.style.transform = `translate(${x}px, ${y}px)`;
-      if(outline) outline.style.transform = `translate(${x - 20}px, ${y - 20}px)`;
-      if(glow) glow.style.transform = `translate(${x}px, ${y}px)`;
+    let stars = [];
+    const starCount = 150;
+    const mouse = { x: null, y: null, radius: 150 };
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initStars();
     });
 
-    document.addEventListener('mousedown', () => { if(outline) outline.style.transform += ' scale(0.8)'; });
-    document.addEventListener('mouseup', () => { if(outline) outline.style.transform = outline.style.transform.replace(' scale(0.8)', ''); });
+    class Star {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.size = Math.random() * 2 + 0.5;
+        this.density = (Math.random() * 30) + 1;
+      }
+      draw() {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+      }
+      update() {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let distance = Math.sqrt(dx * dx + dy * dy);
+        let forceDirectionX = dx / distance;
+        let forceDirectionY = dy / distance;
+        let maxDistance = mouse.radius;
+        let force = (maxDistance - distance) / maxDistance;
+        let directionX = forceDirectionX * force * this.density;
+        let directionY = forceDirectionY * force * this.density;
+
+        if (distance < mouse.radius) {
+          this.x += directionX;
+          this.y += directionY;
+        } else {
+          if (this.x !== this.baseX) {
+            let dx = this.x - this.baseX;
+            this.x -= dx / 20;
+          }
+          if (this.y !== this.baseY) {
+            let dy = this.y - this.baseY;
+            this.y -= dy / 20;
+          }
+        }
+      }
+    }
+
+    function initStars() {
+      stars = [];
+      for (let i = 0; i < starCount; i++) {
+        stars.push(new Star());
+      }
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      
+      // FIXED ALIGNMENT: ใช้ translate3d และลบค่า offset ของขนาดตัวมันเอง
+      if(dot) dot.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`;
+      if(outline) outline.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`;
+      if(glow) glow.style.transform = `translate3d(${mouse.x}px, ${mouse.y}px, 0) translate(-50%, -50%)`;
+    });
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < stars.length; i++) {
+        stars[i].update();
+        stars[i].draw();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    initStars();
+    animate();
+
+    document.addEventListener('mousedown', () => { if(outline) outline.classList.add('clicking'); });
+    document.addEventListener('mouseup', () => { if(outline) outline.classList.remove('clicking'); });
   </script>
   <script src="app.js"></script>
 </body>
