@@ -651,43 +651,35 @@ body.light-mode .modal-content {
 /* ========== HIGH PERFORMANCE SPACE BACKGROUND (CSS ONLY) ========== */
 #spark-canvas { display: none !important; } /* ปิด Canvas ทิ้งถาวรเพื่อความเร็ว */
 
-body {
-  background-color: #020205;
-  background-image: 
-    radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 150px 50px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1.5px 1.5px at 50px 160px, #fff, rgba(0,0,0,0)),
-    radial-gradient(1px 1px at 80px 120px, #fff, rgba(0,0,0,0));
-  background-size: 200px 200px; /* จุดดาวแบบ CSS ลื่น 100% */
-  background-attachment: fixed;
-  cursor: auto !important;
+/* ========== HIDE ALL CUSTOM CURSOR ELEMENTS ========== */
+#cursor-dot, #cursor-outline, #cursor-glow { 
+  display: none !important; 
+  visibility: hidden !important;
 }
+html, body { cursor: auto !important; }
 
-/* บังคับชื่อให้เห็นชัด 100% */
-#heroName {
-  color: #ffffff !important;
-  font-weight: 900 !important;
-  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
-}
-
-/* ========== MILKY WAY LIGHT MODE (SOFTER & CLEAR) ========== */
+/* ========== DIMMED LIGHT MODE (SOFT SLATE) ========== */
 body.light-mode {
-  background-color: #f1f5f9 !important;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, #cbd5e1 100%) !important;
-  color: #000000 !important;
+  background-color: #64748b !important; /* เปลี่ยนเป็นสีเทา Slate ที่หม่นลง */
+  background-image: none !important;
+  color: #ffffff !important; /* เปลี่ยนตัวหนังสือเป็นสีขาวเพื่อให้ตัดกับพื้นหลังที่หม่นลง */
 }
 
 body.light-mode #heroName {
-  color: #000000 !important; /* ชื่อดำสนิท 100% */
+  color: #ffffff !important;
   text-shadow: none !important;
 }
 
 body.light-mode .card-glass {
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
-  color: #000000 !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+  color: #ffffff !important;
+}
+
+body.light-mode p, body.light-mode span, body.light-mode h2, body.light-mode h3 {
+  color: #ffffff !important;
 }
 
 body.light-mode h1, 
