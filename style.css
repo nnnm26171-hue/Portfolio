@@ -1,91 +1,54 @@
 :root {
+  /* GALAXY DARK MODE VARIABLES */
+  --bg-color: #020205;
+  --bg-image: 
+    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 100px 100px, #fff, rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 200px 300px, #fff, rgba(0,0,0,0));
+  --text-color: #ffffff;
+  --card-bg: rgba(20, 20, 35, 0.5);
+  --border-color: rgba(255, 255, 255, 0.1);
   --primary: #8b5cf6;
-  --primary-light: #a78bfa;
-  --primary-glow: rgba(139, 92, 246, 0.4);
-  --cyan: #22d3ee;
-  --bg: #030308;
-  --bg-card: rgba(20, 20, 35, 0.5);
-  --border: rgba(255, 255, 255, 0.1);
-  --text: #ffffff;
-  --text-dim: #94a3b8;
-  --r: 24px;
-  --t: 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  --orb-opacity: 0.2;
 }
 
 body.light-mode {
-  --bg: #f8fafc;
-  --bg-card: rgba(255, 255, 255, 0.7);
-  --border: rgba(0, 0, 0, 0.05);
-  --text: #1e293b;
-  --text-dim: #64748b;
-  --primary-glow: rgba(139, 92, 246, 0.2);
-  --orb-opacity: 0.1;
+  /* MILKY WAY LIGHT MODE VARIABLES */
+  --bg-color: #f1f5f9;
+  --bg-image: 
+    radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(165, 180, 252, 0.2) 0%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 100px 100px, rgba(0,0,0,0.2), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 200px 300px, rgba(0,0,0,0.2), rgba(0,0,0,0));
+  --text-color: #0f172a;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --border-color: rgba(0, 0, 0, 0.05);
+  --primary: #0ea5e9;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  background-color: #020205;
-  background-image: 
-    radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(15, 15, 35, 1) 0%, #020205 100%);
+  background-color: var(--bg-color);
+  background-image: var(--bg-image);
   background-attachment: fixed;
-  color: var(--text);
+  background-size: 100% 100%, 100% 100%, 400px 400px, 400px 400px;
+  color: var(--text-color);
   font-family: 'Plus Jakarta Sans', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
+  transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* --- SHOOTING STARS EFFECT --- */
-.shooting-star {
-  position: fixed;
-  top: -10px;
-  width: 2px;
-  height: 50px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0), #fff);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-  animation: shooting 4s linear infinite;
+/* บังคับสีหัวข้อในโหมดต่างๆ */
+h1, h2, h3, #heroName {
+  color: var(--text-color) !important;
 }
 
-@keyframes shooting {
-  0% { transform: translateY(0) translateX(0) rotate(-45deg); opacity: 0; }
-  10% { opacity: 1; }
-  30% { transform: translateY(100vh) translateX(100vh) rotate(-45deg); opacity: 0; }
-  100% { opacity: 0; }
-}
-
-/* สร้างดาวตกหลายๆ จุด */
-.star-1 { left: 10%; animation-delay: 0s; }
-.star-2 { left: 40%; animation-delay: 5s; }
-.star-3 { left: 70%; animation-delay: 12s; }
-
-body.light-mode {
-  --bg: #94a3b8; /* ปรับพื้นหลังให้เข้มและหม่นลงอีกเป็นโทน Slate Grey */
-  --bg-card: rgba(255, 255, 255, 0.95);
-  --border: rgba(0, 0, 0, 0.12);
-  --text: #000000;
-  --text-dim: #0f172a;
-  --primary: #0ea5e9;
-  --primary-light: #38bdf8;
-  --primary-glow: rgba(14, 165, 233, 0.2);
-}
-
-body.light-mode {
-  background-image: 
-    radial-gradient(circle at 0% 0%, rgba(14, 165, 233, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 80%);
-}
-
-/* เพิ่มมิติเงาให้การ์ดในโหมดสว่าง */
-body.light-mode .project-card, 
-body.light-mode .activity-card, 
-body.light-mode .card-glass {
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+/* จัดระดับหน้าให้เท่ากันทุกหน้า */
+.section-page {
+  padding-top: 120px !important;
+  min-height: 100vh;
 }
 
 #spark-canvas {
@@ -93,7 +56,7 @@ body.light-mode .card-glass {
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 100000 !important; /* ย้ายมาหน้าสุดของทุกอย่าง */
+  z-index: 100000 !important;
   display: block !important;
 }
 
