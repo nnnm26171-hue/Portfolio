@@ -165,14 +165,15 @@
     window.addEventListener('mousemove', (e) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
-      // ปรับความถี่และสีให้สว่างชัดเจน (เห็นว่ามี)
-      if (Math.random() > 0.90) {
+      // สะเก็ดไฟสีฟ้า Neon (Blue Fire Sparks)
+      if (Math.random() > 0.85) {
         sparks.push({
           x: mouse.x, y: mouse.y,
-          size: Math.random() * 4 + 2, // ขนาดใหญ่ขึ้น
-          speedX: Math.random() * 2 - 1,
-          speedY: Math.random() * 2 - 1,
-          opacity: 0.9 // สว่างชัดเจน
+          size: Math.random() * 4 + 1,
+          speedX: Math.random() * 3 - 1.5,
+          speedY: Math.random() * 3 - 1.5,
+          opacity: 1,
+          color: Math.random() > 0.5 ? '#00e5ff' : '#00b8ff' // ฟ้า Cyan และ ฟ้าเข้ม
         });
       }
     });
@@ -182,9 +183,11 @@
       for (let i = 0; i < sparks.length; i++) {
         let s = sparks[i];
         s.x += s.speedX; s.y += s.speedY;
-        s.opacity -= 0.01;
-        ctx.fillStyle = `rgba(0, 229, 255, ${s.opacity})`;
+        s.opacity -= 0.02;
+        ctx.fillStyle = s.color;
+        ctx.globalAlpha = s.opacity;
         ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = 1;
         if (s.opacity <= 0) { sparks.splice(i, 1); i--; }
       }
       requestAnimationFrame(animate);

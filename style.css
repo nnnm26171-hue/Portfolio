@@ -12,18 +12,14 @@
   --primary: #8b5cf6;
 }
 
+/* --- MILKY WAY LIGHT MODE VARIABLES --- */
 body.light-mode {
-  /* MILKY WAY LIGHT MODE VARIABLES */
-  --bg-color: #f1f5f9;
-  --bg-image: 
-    radial-gradient(circle at 20% 30%, rgba(56, 189, 248, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(165, 180, 252, 0.2) 0%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 100px 100px, rgba(0,0,0,0.2), rgba(0,0,0,0)),
-    radial-gradient(2px 2px at 200px 300px, rgba(0,0,0,0.2), rgba(0,0,0,0));
-  --text-color: #0f172a;
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --border-color: rgba(0, 0, 0, 0.05);
-  --primary: #0ea5e9;
+  --bg-color: #cbd5e1; /* ปรับพื้นหลังให้หม่นลงอีก */
+  --bg-image: none;
+  --text-color: #000000;
+  --card-bg: rgba(255, 255, 255, 0.6);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --primary: #f97316; /* เปลี่ยนสีเน้นเป็นโทนส้มสะเก็ดไฟ */
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -40,14 +36,19 @@ body {
   transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* บังคับสีหัวข้อในโหมดต่างๆ */
-h1, h2, h3, #heroName {
+/* บังคับชื่อให้เห็นชัด 100% ในทุกโหมด */
+#heroName {
   color: var(--text-color) !important;
+  background: none !important; /* ลบสีไล่เฉดทิ้ง */
+  -webkit-text-fill-color: var(--text-color) !important; /* บังคับสีตัวอักษร */
+  font-weight: 900 !important;
+  text-shadow: none !important;
 }
 
-/* จัดระดับหน้าให้เท่ากันทุกหน้า */
+/* จัดระดับหน้าให้เท่ากันทุกหน้า ทั้งบนและล่าง */
 .section-page {
   padding-top: 120px !important;
+  padding-bottom: 120px !important; /* เพิ่มระยะห่างด้านล่างให้เท่ากัน */
   min-height: 100vh;
 }
 
