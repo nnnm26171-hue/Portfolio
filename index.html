@@ -59,13 +59,16 @@
     <div class="grain-overlay"></div>
     <div class="bg-orb orb-1"></div>
     <div class="bg-orb orb-2"></div>
-    <div class="shooting-star star-1" style="top:10%; left:20%; animation-delay: 0s;"></div>
-    <div class="shooting-star star-2" style="top:30%; left:50%; animation-delay: 2s;"></div>
-    <div class="shooting-star star-3" style="top:60%; left:80%; animation-delay: 4s;"></div>
+    <!-- ฝนดาวตก -->
+    <div class="shooting-star" style="top: 10%; left: 80%; animation-delay: 0s;"></div>
+    <div class="shooting-star" style="top: 20%; left: 90%; animation-delay: 5s;"></div>
+    <div class="shooting-star" style="top: 40%; left: 70%; animation-delay: 2s;"></div>
+    <div class="shooting-star" style="top: 60%; left: 95%; animation-delay: 8s;"></div>
+    <div class="shooting-star" style="top: 80%; left: 85%; animation-delay: 4s;"></div>
+    <div class="shooting-star" style="top: 15%; left: 60%; animation-delay: 11s;"></div>
   </div>
   <div id="cursor-dot"></div>
-  <div id="cursor-outline"></div>
-  <div id="cursor-glow"></div>
+  <!-- ลบ outline และ glow ออกเพื่อให้เหลือแค่ละออง -->
 
   <nav class="navbar">
     <div class="nav-right-group">
@@ -188,41 +191,44 @@
     let sparks = [];
     function resize() { sparkCanvas.width = window.innerWidth; sparkCanvas.height = window.innerHeight; }
     window.addEventListener('resize', resize); resize();
-    function createSpark(x, y, color) {
-      for (let i = 0; i < 8; i++) {
-        sparks.push({
-          x, y,
-          size: Math.random() * 3 + 1,
-          speedX: (Math.random() - 0.5) * 5,
-          speedY: (Math.random() - 0.5) * 5,
-          opacity: 1,
-          color: color || '#0ea5e9'
-        });
-      }
-    }
-    document.addEventListener('mousemove', (e) => {
-      createSpark(e.clientX, e.clientY, document.body.classList.contains('light-mode') ? '#0ea5e9' : '#8b5cf6');
-      const outline = document.getElementById('cursor-outline');
-      const glow = document.getElementById('cursor-glow');
-      if (outline) { outline.style.left = e.clientX + 'px'; outline.style.top = e.clientY + 'px'; }
-      if (glow) { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }
-    });
     function animate() {
       ctx.clearRect(0, 0, sparkCanvas.width, sparkCanvas.height);
       requestAnimationFrame(animate);
       for (let i = 0; i < sparks.length; i++) {
         let s = sparks[i];
         s.x += s.speedX; s.y += s.speedY;
-        s.opacity -= 0.02;
+        s.opacity -= 0.05; /* จางหายเร็วขึ้นเพื่อให้ดูเป็นละอองสั้นๆ */
         ctx.fillStyle = s.color;
         ctx.globalAlpha = s.opacity;
         ctx.beginPath();
-        ctx.fillRect(s.x, s.y, s.size, s.size);
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); /* เปลี่ยนเป็นวงกลมจิ๋ว */
+        ctx.fill();
         ctx.globalAlpha = 1;
         if (s.opacity <= 0) { sparks.splice(i, 1); i--; }
       }
     }
     animate();
+
+    function createSpark(x, y, color) {
+      /* สร้างละอองจิ๋วเพียง 1 ดวงต่อการขยับ เพื่อให้ดูเหมือนไฟติดตูดเมาส์ */
+      sparks.push({
+        x, y,
+        size: Math.random() * 1.5 + 0.5,
+        speedX: (Math.random() - 0.5) * 1,
+        speedY: (Math.random() - 0.5) * 1,
+        opacity: 0.8,
+        color: color || '#0ea5e9'
+      });
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      createSpark(e.clientX, e.clientY, document.body.classList.contains('light-mode') ? '#0ea5e9' : '#8b5cf6');
+      const dot = document.getElementById('cursor-dot');
+      if (dot) { 
+        dot.style.left = e.clientX + 'px'; 
+        dot.style.top = e.clientY + 'px'; 
+      }
+    });
 
     document.addEventListener('mousedown', () => { 
       const outline = document.getElementById('cursor-outline');
