@@ -12,18 +12,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     /* บังคับหัวข้อให้แสดงผล 100% ป้องกันปัญหาบน GitHub Pages */
-    .section-header-pro h2, .section-header-pro .line {
+    .section-header-pro {
+      background: red !important; /* ทดสอบว่ากล่องขึ้นไหม */
+      padding: 20px !important;
       opacity: 1 !important;
       visibility: visible !important;
-      transform: none !important;
-      display: block !important;
+      display: flex !important;
     }
-    .section-header-pro h2 {
-      color: #ffffff !important; /* สีสำรองถ้า Gradient ไม่ติด */
-      background: linear-gradient(to right, #ffffff, #0ea5e9) !important;
-      -webkit-background-clip: text !important;
-      background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
+    .section-header-pro h2, .section-header-pro .line, .section-header-pro span {
+      opacity: 1 !important;
+      visibility: visible !important;
+      color: white !important;
+      display: block !important;
     }
   </style>
 </head>
@@ -77,7 +77,7 @@
   <section class="section section-page" id="experience">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">01 - NEW</span>
+        <span class="label">01 - FORCE</span>
         <h2>Professional Experience</h2>
         <div class="line"></div>
       </div>
@@ -91,7 +91,7 @@
   <section class="section section-page" id="selfdev">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">02 - NEW</span>
+        <span class="label">02 - FORCE</span>
         <h2>Self-Development</h2>
         <div class="line"></div>
       </div>
@@ -109,7 +109,7 @@
   <section class="section section-page" id="awards">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">03 - NEW</span>
+        <span class="label">03 - FORCE</span>
         <h2>Awards</h2>
         <div class="line"></div>
       </div>
@@ -123,7 +123,7 @@
   <section class="section section-page" id="leadership">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">04 - NEW</span>
+        <span class="label">04 - FORCE</span>
         <h2>Leadership & Volunteer</h2>
         <div class="line"></div>
       </div>
