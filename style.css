@@ -656,13 +656,15 @@ body.light-mode .modal-content {
   display: none !important; 
   visibility: hidden !important;
 }
-html, body { cursor: auto !important; }
-
-/* ========== DIMMED LIGHT MODE (SOFT SLATE) ========== */
-body.light-mode {
-  background-color: #64748b !important; /* เปลี่ยนเป็นสีเทา Slate ที่หม่นลง */
-  background-image: none !important;
-  color: #ffffff !important; /* เปลี่ยนตัวหนังสือเป็นสีขาวเพื่อให้ตัดกับพื้นหลังที่หม่นลง */
+body {
+  background-color: #020205;
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, rgba(255,255,255,0.4), rgba(0,0,0,0)),
+    radial-gradient(1.5px 1.5px at 150px 50px, rgba(255,255,255,0.4), rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 80px 120px, rgba(255,255,255,0.4), rgba(0,0,0,0));
+  background-size: 300px 300px; /* ขยายขนาดเพื่อให้ดาวดูประปราย ไม่เยอะเกินไป */
+  background-attachment: fixed;
+  cursor: auto !important;
 }
 
 body.light-mode #heroName {

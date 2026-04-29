@@ -153,7 +153,44 @@
   </div>
 
   <script>
-    // --- SECURE EDIT TRIGGER (SIMPLE & FAST) ---
+    // --- SECURE EDIT TRIGGER & MINIMAL SPARKS ---
+    const canvas = document.getElementById('spark-canvas');
+    const ctx = canvas.getContext('2d');
+    let sparks = [];
+    const mouse = { x: 0, y: 0 };
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      // นานๆ ออกทีและจางมากๆ
+      if (Math.random() > 0.95) {
+        sparks.push({
+          x: mouse.x, y: mouse.y,
+          size: Math.random() * 2 + 0.5,
+          speedX: Math.random() * 1 - 0.5,
+          speedY: Math.random() * 1 - 0.5,
+          opacity: 0.3
+        });
+      }
+    });
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < sparks.length; i++) {
+        let s = sparks[i];
+        s.x += s.speedX; s.y += s.speedY;
+        s.opacity -= 0.01;
+        ctx.fillStyle = `rgba(0, 229, 255, ${s.opacity})`;
+        ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
+        if (s.opacity <= 0) { sparks.splice(i, 1); i--; }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+
     document.addEventListener('dblclick', (e) => {
         if (e.target.id === 'heroName' || e.target.closest('#heroName')) {
             toggleEditMode();
