@@ -408,11 +408,28 @@ body.light-mode .btn-edit-toggle {
 body.light-mode .modal-content {
   background: #ffffff;
   border-color: var(--primary);
+  color: #000000;
 }
+
+/* ปรับสีหัวข้อให้ดำสนิทในโหมดสว่าง */
+body.light-mode .f-group label {
+  color: #1a1a2e !important;
+  opacity: 1;
+}
+
+/* ปรับสีหัวข้อช่องใส่รูปให้เข้มขึ้นในโหมดสว่าง (จากเดิมที่จางมองไม่เห็น) */
+body.light-mode .f-group.img-field {
+  background: #ecfeff;
+  border-color: #0891b2;
+}
+body.light-mode .f-group.img-field label {
+  color: #0891b2 !important;
+}
+
 body.light-mode .f-group input, body.light-mode .f-group textarea {
-  background: #f1f5f9;
+  background: #ffffff;
   border: 1px solid #cbd5e1;
-  color: #000;
+  color: #000000;
 }
 
 .projects-grid { display: grid; gap: 1.5rem; }
