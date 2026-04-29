@@ -233,8 +233,8 @@
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       
-      // ลดสะเก็ดไฟให้เหลือน้อยที่สุด - นานๆ ออกมาทีแค่พอติดปลายเมาส์
-      if (Math.random() > 0.92) {
+      // ลดสะเก็ดไฟขั้นสุด - นานๆ ออกทีและจางมากๆ
+      if (Math.random() > 0.96) {
         stars.push(new Spark(mouse.x, mouse.y));
       }
     });
@@ -242,10 +242,10 @@
     class Spark {
       constructor(x, y) {
         this.x = x; this.y = y;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 2 - 1;
-        this.speedY = Math.random() * 2 - 1;
-        this.opacity = 1;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = Math.random() * 1 - 0.5;
+        this.speedY = Math.random() * 1 - 0.5;
+        this.opacity = 0.4; // เริ่มต้นแบบจางๆ
         this.color = '#00e5ff';
         this.isSpark = true;
       }
