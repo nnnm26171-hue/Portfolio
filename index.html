@@ -233,41 +233,34 @@
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       
-      // สร้างสะเก็ดไฟสีฟ้า - ปรับให้ชัดขึ้น
-      for (let i = 0; i < 3; i++) {
+      // สร้างสะเก็ดไฟสีฟ้า - จำนวนน้อยลงเพื่อความลื่นไหล
+      if (Math.random() > 0.3) {
         stars.push(new Spark(mouse.x, mouse.y));
       }
     });
 
-    console.log("Space Background & Cursor Tail System Active! 🚀");
-    console.log("Secret: Double-click on your name to enter Admin Mode.");
-
     class Spark {
       constructor(x, y) {
         this.x = x; this.y = y;
-        this.size = Math.random() * 3 + 1.5; // ขนาดกำลังดี
+        this.size = Math.random() * 2 + 1;
         this.speedX = Math.random() * 2 - 1;
         this.speedY = Math.random() * 2 - 1;
         this.opacity = 1;
-        // สีฟ้า Cyan นวลๆ
         this.color = '#00e5ff';
         this.isSpark = true;
       }
       draw() {
         ctx.fillStyle = this.color;
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = this.color;
         ctx.globalAlpha = this.opacity;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
         ctx.globalAlpha = 1;
-        ctx.shadowBlur = 0;
       }
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.opacity -= 0.015; // จางช้าลงเพื่อให้ดูนุ่มนวล
+        this.opacity -= 0.02;
         if (this.size > 0.1) this.size -= 0.05;
       }
     }
