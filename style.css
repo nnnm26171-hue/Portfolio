@@ -345,7 +345,53 @@ body.light-mode .btn-edit-toggle {
 .hero-link.social-icon:hover { background: rgba(255,255,255,0.1); color: #fff; transform: translateY(-3px); }
 .hero-link.social-icon .label { display: none; }
 
-.exp-tabs { display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 3rem; }
+.exp-tabs { 
+  display: flex; gap: 0.8rem; justify-content: center; margin-bottom: 3.5rem; flex-wrap: wrap; 
+}
+
+.tab-btn {
+  padding: 0.7rem 1.6rem; border-radius: 100px; 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03); 
+  color: var(--text-dim); font-weight: 700; font-size: 0.85rem;
+  cursor: pointer; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; gap: 0.6rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary-light);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+.tab-btn.active { 
+  background: linear-gradient(135deg, var(--primary), var(--cyan)); 
+  color: #fff; 
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: 0 10px 30px var(--primary-glow);
+  transform: scale(1.08);
+}
+
+/* ปรับแต่ง Tab ในโหมดสว่าง */
+body.light-mode .tab-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(0, 0, 0, 0.05);
+  color: #475569;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+body.light-mode .tab-btn:hover {
+  background: #fff;
+  color: #000;
+  border-color: var(--primary);
+}
+body.light-mode .tab-btn.active {
+  background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+  color: #fff;
+}
 /* ========== PREMIUM MODAL ========== */
 .modal {
   position: fixed; inset: 0;
