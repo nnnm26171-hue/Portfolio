@@ -182,31 +182,34 @@ function renderAll() {
 
 function switchTab(t) { currentTab = t; renderAll(); }
 
-// --- SECRET EDIT TRIGGER ---
-// ดับเบิ้ลคลิกที่ชื่อเพื่อเปิดโหมดแก้ไข
-setTimeout(() => {
-    const heroName = document.getElementById('heroName');
-    if (heroName) {
-        heroName.addEventListener('dblclick', () => toggleEditMode());
-        heroName.title = 'Admin Access';
+// --- SECRET EDIT TRIGGER (ROBUST) ---
+document.addEventListener('dblclick', (e) => {
+    // ถ้าดับเบิ้ลคลิกที่ชื่อ หรือ พื้นที่ใกล้เคียงชื่อ
+    if (e.target.id === 'heroName' || e.target.closest('#heroName')) {
+        toggleEditMode();
     }
-    // ซ่อนปุ่ม Edit เดิมไม่ให้คนเห็น
-    const oldBtn = document.getElementById('edit-mode-toggle');
-    if (oldBtn) oldBtn.style.display = 'none';
-    const oldBtn2 = document.getElementById('editToggleBtn');
-    if (oldBtn2) oldBtn2.style.display = 'none';
-}, 1000);
+});
+
+// ซ่อนปุ่ม Edit ทุกตัวที่มีในหน้าเว็บ
+setInterval(() => {
+    ['editToggleBtn', 'edit-mode-toggle', 'btn-edit-toggle'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.style.display = 'none';
+    });
+}, 500);
 
 function toggleEditMode() {
-    if (!editMode) {
-        const pw = prompt("กรุณาใส่รหัสผ่านเพื่อเข้าสู่โหมดแก้ไข:");
-        if (pw !== "1234") { alert("รหัสผ่านไม่ถูกต้อง!"); return; }
+    const pw = prompt("กรุณาใส่รหัสผ่านลับ:");
+    if (pw === "1234") {
+        editMode = !editMode;
+        document.body.classList.toggle('edit-mode', editMode);
+        document.getElementById('editBar').style.display = editMode ? 'flex' : 'none';
+        if (!editMode) save();
+        renderAll();
+        toast(editMode ? "Admin Mode: ON ✏️" : "Admin Mode: OFF 🔒");
+    } else if (pw !== null) {
+        alert("รหัสไม่ถูกต้องครับ");
     }
-    editMode = !editMode;
-    document.body.classList.toggle('edit-mode', editMode);
-    document.getElementById('editBar').style.display = editMode ? 'flex' : 'none';
-    if (!editMode) save();
-    renderAll();
 }
 
 const openModal = (title, fieldsHtml, saveFn) => {

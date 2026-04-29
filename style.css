@@ -93,7 +93,7 @@ body.light-mode .card-glass {
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 0; /* อยู่หน้าพื้นหลัง แต่อยู่หลังเนื้อหา */
+  z-index: 100000 !important; /* ย้ายมาหน้าสุดของทุกอย่าง */
   display: block !important;
 }
 
@@ -148,19 +148,25 @@ body.light-mode .hero-title {
 #cursor-dot, #cursor-outline, #cursor-glow { 
   display: block !important; 
 }
-html, body { cursor: auto !important; } /* คืนค่าเมาส์ปกติ */
-a, button, .tab-btn, .edit-btn-mini { cursor: pointer !important; }
-
-/* ซ่อนเมาส์ไฟอันเก่า เพื่อใช้สะเก็ดไฟแทน */
-#cursor-dot, #cursor-outline, #cursor-glow { 
-  display: none !important; 
+html, body { 
+  cursor: auto !important; /* บังคับใช้เมาส์ปกติของ Windows/Mac */
+}
+a, button, .tab-btn, .edit-btn-mini, [onclick] { 
+  cursor: pointer !important; 
 }
 
+/* ซ่อนของเก่าให้หมด */
+#cursor-dot, #cursor-outline, #cursor-glow { 
+  display: none !important; 
+  visibility: hidden !important;
+}
+
+/* โหมดสว่าง - บังคับขาวจั๊วะ */
 body.light-mode {
+  background: #ffffff !important;
   background-color: #ffffff !important;
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%) !important;
+  background-image: none !important;
+  color: #000000 !important;
 }
 
 body.light-mode .card-glass, 
