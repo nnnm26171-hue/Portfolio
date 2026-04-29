@@ -233,8 +233,8 @@
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       
-      // สร้างสะเก็ดไฟสีฟ้า - จำนวนน้อยลงเพื่อความลื่นไหล
-      if (Math.random() > 0.3) {
+      // ลดสะเก็ดไฟให้เหลือน้อยที่สุด - นานๆ ออกมาทีแค่พอติดปลายเมาส์
+      if (Math.random() > 0.92) {
         stars.push(new Spark(mouse.x, mouse.y));
       }
     });
