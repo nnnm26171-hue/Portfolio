@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio (Updated)</title>
-  <link rel="stylesheet" href="style.css?v=1.1">
+  <title>My Portfolio (V3)</title>
+  <link rel="stylesheet" href="style.css?v=1001">
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap"
     rel="stylesheet">
@@ -13,17 +13,21 @@
   <style>
     /* บังคับหัวข้อให้แสดงผล 100% ป้องกันปัญหาบน GitHub Pages */
     .section-header-pro {
-      background: transparent !important; /* บังคับล้างสีแดงออก */
+      background: transparent !important;
+      /* บังคับล้างสีแดงออก */
       opacity: 1 !important;
       visibility: visible !important;
       display: flex !important;
     }
-    .section-header-pro h2, .section-header-pro .line {
+
+    .section-header-pro h2,
+    .section-header-pro .line {
       opacity: 1 !important;
       visibility: visible !important;
       transform: none !important;
       display: block !important;
     }
+
     .section-header-pro h2 {
       color: #ffffff !important;
       background: linear-gradient(to right, #ffffff, #0ea5e9) !important;
@@ -33,23 +37,47 @@
     }
 
     .edit-bar {
-      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-      background: rgba(10, 10, 20, 0.9) !important; 
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 10, 20, 0.9) !important;
       padding: 0.8rem 2.5rem !important;
       border-radius: 100px;
-      display: flex; gap: 2rem !important;
-      border: 1px solid var(--primary); 
+      display: flex;
+      gap: 2rem !important;
+      border: 1px solid var(--primary);
       z-index: 99999 !important;
       align-items: center !important;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
-    .edit-bar button, .edit-bar span, .edit-bar label { 
-      background: transparent; border: none; color: #fff !important; 
-      font-weight: 600 !important; cursor: pointer; font-size: 0.85rem !important;
-      margin: 0 !important; display: flex; align-items: center; white-space: nowrap;
+
+    .edit-bar button,
+    .edit-bar span,
+    .edit-bar label {
+      background: transparent;
+      border: none;
+      color: #fff !important;
+      font-weight: 600 !important;
+      cursor: pointer;
+      font-size: 0.85rem !important;
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
     }
-    body.light-mode .edit-bar { background: rgba(255, 255, 255, 0.95) !important; border-color: var(--primary) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    body.light-mode .edit-bar button, body.light-mode .edit-bar span, body.light-mode .edit-bar label { color: #0f172a !important; }
+
+    body.light-mode .edit-bar {
+      background: rgba(255, 255, 255, 0.95) !important;
+      border-color: var(--primary) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    body.light-mode .edit-bar button,
+    body.light-mode .edit-bar span,
+    body.light-mode .edit-bar label {
+      color: #0f172a !important;
+    }
   </style>
 </head>
 
@@ -80,7 +108,8 @@
         <a href="#leadership" onclick="showSection('leadership'); return false;">Leadership & Volunteer</a>
       </div>
       <div style="display:flex; gap:10px; align-items:center">
-        <button class="btn-edit-toggle" onclick="toggleTheme()" title="Toggle Theme" style="background:var(--bg-card); font-size:1.2rem">🌓</button>
+        <button class="btn-edit-toggle" onclick="toggleTheme()" title="Toggle Theme"
+          style="background:var(--bg-card); font-size:1.2rem">🌓</button>
         <button class="btn-edit-toggle" id="editToggleBtn" onclick="toggleEditMode()" title="Edit Portfolio">✏</button>
       </div>
     </div>
@@ -224,22 +253,22 @@
     document.addEventListener('mousemove', (e) => {
       createSpark(e.clientX, e.clientY, document.body.classList.contains('light-mode') ? '#0ea5e9' : '#8b5cf6');
       const dot = document.getElementById('cursor-dot');
-      if (dot) { 
-        dot.style.left = e.clientX + 'px'; 
-        dot.style.top = e.clientY + 'px'; 
+      if (dot) {
+        dot.style.left = e.clientX + 'px';
+        dot.style.top = e.clientY + 'px';
       }
     });
 
-    document.addEventListener('mousedown', () => { 
+    document.addEventListener('mousedown', () => {
       const outline = document.getElementById('cursor-outline');
-      if (outline) outline.classList.add('clicking'); 
+      if (outline) outline.classList.add('clicking');
     });
-    document.addEventListener('mouseup', () => { 
+    document.addEventListener('mouseup', () => {
       const outline = document.getElementById('cursor-outline');
-      if (outline) outline.classList.remove('clicking'); 
+      if (outline) outline.classList.remove('clicking');
     });
   </script>
-  <script src="app.js"></script>
+  <script src="app.js?v=1.1"></script>
 </body>
 
 </html>
