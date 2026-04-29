@@ -36,8 +36,7 @@ const save = async () => {
 const toast = (msg) => { 
     const t = document.getElementById('toast'); 
     if (t) {
-        t.textContent = msg; 
-        t.style.transform = 'translateY(0)';
+        t.textContent = msg; t.style.transform = 'translateY(0)';
         setTimeout(() => t.style.transform = 'translateY(200%)', 2500); 
     }
 };
@@ -48,17 +47,9 @@ async function loadData() {
     try {
         const local = localStorage.getItem('portfolio');
         if (local) data = JSON.parse(local);
-
         if (dbClient) {
-            const { data: dbData } = await dbClient
-                .from('Portfolio_data')
-                .select('content')
-                .eq('id', 'main_portfolio')
-                .single();
-            
-            if (dbData && dbData.content) {
-                data = dbData.content;
-            }
+            const { data: dbData } = await dbClient.from('Portfolio_data').select('content').eq('id', 'main_portfolio').single();
+            if (dbData && dbData.content) data = dbData.content;
         }
     } catch (e) { console.error('Load Error:', e); }
     renderAll();
@@ -81,24 +72,15 @@ function renderHero() {
         `;
     }
     const nameEl = document.getElementById('heroName');
-    if (nameEl) {
-        nameEl.innerHTML = `${esc(p.name)} ${editMode ? `<button class="edit-btn-text" onclick="openEditPersonal()">✏️</button>` : ''}`;
-    }
+    if (nameEl) nameEl.innerHTML = `${esc(p.name)} ${editMode ? `<button class="edit-btn-text" onclick="openEditPersonal()">✏️</button>` : ''}`;
     if (document.getElementById('heroTitle')) document.getElementById('heroTitle').textContent = p.title;
     if (document.getElementById('heroUni')) document.getElementById('heroUni').textContent = p.university;
     if (document.getElementById('heroBio')) document.getElementById('heroBio').innerHTML = `${esc(p.bio)} ${editMode ? `<br><button class="edit-btn-text" onclick="openEditPersonal()">✏️ Edit Bio</button>` : ''}`;
     const skillsEl = document.getElementById('heroSkills');
-    if (skillsEl) {
-        skillsEl.innerHTML = (p.skills || []).map(s => `<span class="skill-tag">${esc(s)}</span>`).join('') + (editMode ? `<button class="skill-tag" onclick="openEditPersonal()" style="border:1px dashed var(--primary); color:var(--primary)">+ Edit</button>` : '');
-    }
+    if (skillsEl) skillsEl.innerHTML = (p.skills || []).map(s => `<span class="skill-tag">${esc(s)}</span>`).join('') + (editMode ? `<button class="skill-tag" onclick="openEditPersonal()" style="border:1px dashed var(--primary); color:var(--primary)">+ Edit</button>` : '');
     const linksCont = document.getElementById('heroLinks');
     if (linksCont) {
-        const links = [
-            { key: 'email', icon: '✉️', label: 'Email', url: `mailto:${c.email}` },
-            { key: 'github', icon: '⌥', label: 'GitHub', url: c.github },
-            { key: 'linkedin', icon: 'in', label: 'LinkedIn', url: c.linkedin },
-            { key: 'website', icon: '🌐', label: 'Website', url: c.website }
-        ].filter(l => c[l.key]);
+        const links = [{ key: 'email', icon: '✉️', label: 'Email', url: `mailto:${c.email}` }, { key: 'github', icon: '⌥', label: 'GitHub', url: c.github }, { key: 'linkedin', icon: 'in', label: 'LinkedIn', url: c.linkedin }, { key: 'website', icon: '🌐', label: 'Website', url: c.website }].filter(l => c[l.key]);
         linksCont.innerHTML = links.map(l => `<a href="${esc(l.url)}" target="_blank" class="hero-link ${l.key === 'email' ? 'email-cta' : 'social-icon'}"><span class="icon">${l.icon}</span><span class="label">${esc(l.label)}</span></a>`).join('') + (editMode ? `<button class="hero-link social-icon" onclick="openEditPersonal()" style="background:var(--primary); color:#fff">✏️</button>` : '');
     }
 }
@@ -107,14 +89,8 @@ function renderProjects() {
     const arr = data.experience[currentTab] || [];
     const container = document.getElementById('projectsGrid');
     if (!container) return;
-    
-    // จัดการปุ่ม Add Project
     const addBtn = document.getElementById('addProjectBtn');
-    if (addBtn) {
-        addBtn.style.display = editMode ? 'inline-block' : 'none';
-        addBtn.onclick = openAddProject; // มั่นใจว่าผูกฟังก์ชันถูกต้อง
-    }
-    
+    if (addBtn) { addBtn.style.display = editMode ? 'inline-block' : 'none'; addBtn.onclick = openAddProject; }
     container.innerHTML = arr.map(p => `
         <div class="project-card">
             ${p.img ? `<img class="project-img-circle" src="${esc(p.img)}">` : `<div class="project-img-circle" style="display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.05)">📁</div>`}
@@ -137,15 +113,34 @@ function renderSelfDev() {
     const btnC = document.getElementById('addCertBtn'), btnW = document.getElementById('addWorkshopBtn');
     if (btnC) { btnC.style.display = editMode ? 'inline-block' : 'none'; btnC.onclick = () => openAddItem('cert'); }
     if (btnW) { btnW.style.display = editMode ? 'inline-block' : 'none'; btnW.onclick = () => openAddItem('workshop'); }
-    document.getElementById('certsGrid').innerHTML = (data.selfDev.certs || []).map(i => `<div class="item-row"><span>${esc(i.name)} (${esc(i.provider)})</span> ${editMode ? `<button onclick="deleteItem('certs','${i.id}')">x</button>` : ''}</div>`).join('');
-    document.getElementById('workshopsGrid').innerHTML = (data.selfDev.workshops || []).map(i => `<div class="item-row"><span>${esc(i.name)}</span> ${editMode ? `<button onclick="deleteItem('workshops','${i.id}')">x</button>` : ''}</div>`).join('');
+    
+    const renderItem = (i, type) => `
+        <div class="item-row-card">
+            ${i.img ? `<img src="${esc(i.img)}" class="item-img-mini">` : ''}
+            <div class="item-info">
+                <strong>${esc(i.name)}</strong> ${i.provider ? `• ${esc(i.provider)}` : ''}
+                ${editMode ? `<button class="del-small" onclick="deleteItem('${type}','${i.id}')">✕</button>` : ''}
+            </div>
+        </div>`;
+
+    document.getElementById('certsGrid').innerHTML = (data.selfDev.certs || []).map(i => renderItem(i, 'certs')).join('');
+    document.getElementById('workshopsGrid').innerHTML = (data.selfDev.workshops || []).map(i => renderItem(i, 'workshops')).join('');
 }
 
 function renderAwards() {
     const btnC = document.getElementById('addCompBtn');
     if (btnC) { btnC.style.display = editMode ? 'inline-block' : 'none'; btnC.onclick = () => openAddItem('competition_award'); }
     const compGrid = document.getElementById('competitionsGrid');
-    if (compGrid) compGrid.innerHTML = (data.awards.competitions || []).map(i => `<div class="item-row"><span>${esc(i.result)} - ${esc(i.name)}</span> ${editMode ? `<button onclick="deleteItem('competitions','${i.id}')">🗑</button>` : ''}</div>`).join('');
+    if (compGrid) {
+        compGrid.innerHTML = (data.awards.competitions || []).map(i => `
+            <div class="item-row-card">
+                ${i.img ? `<img src="${esc(i.img)}" class="item-img-mini">` : ''}
+                <div class="item-info">
+                    <strong>${esc(i.result)}</strong> - ${esc(i.name)}
+                    ${editMode ? `<button class="del-small" onclick="deleteItem('competitions','${i.id}')">✕</button>` : ''}
+                </div>
+            </div>`).join('');
+    }
 }
 
 function renderLeadership() {
@@ -155,7 +150,7 @@ function renderLeadership() {
     if (container) {
         container.innerHTML = (data.leadership || []).map(i => `
             <div class="activity-card">
-                ${i.img ? `<img class="activity-img" src="${esc(i.img)}">` : `<div class="activity-img"></div>`}
+                ${i.img ? `<img class="activity-img" src="${esc(i.img)}">` : `<div class="activity-img" style="background:rgba(255,255,255,0.05)"></div>`}
                 <div class="activity-info">
                     <span class="activity-role">${esc(i.role)}</span>
                     <h3 class="activity-name">${esc(i.name)}</h3>
@@ -216,9 +211,9 @@ function openEditPersonal() {
 }
 
 function openAddProject() {
-    const body = fld('p_name', 'Name') + fld('p_role', 'Role') + fld('p_year', 'Year') + txt('p_desc', 'Description');
+    const body = fld('p_name', 'Name') + fld('p_img', 'Image URL') + fld('p_role', 'Role') + fld('p_year', 'Year') + fld('p_link', 'Result Link') + txt('p_desc', 'Description');
     openModal('Add Project', body, () => {
-        const p = { id: uid(), name: g('p_name'), role: g('p_role'), year: g('p_year'), description: g('p_desc'), img: '', link: '' };
+        const p = { id: uid(), name: g('p_name'), img: g('p_img'), role: g('p_role'), year: g('p_year'), description: g('p_desc'), link: g('p_link') };
         if (!data.experience[currentTab]) data.experience[currentTab] = [];
         data.experience[currentTab].unshift(p);
         renderAll();
@@ -228,23 +223,23 @@ function openAddProject() {
 function openEditProject(id) {
     const p = data.experience[currentTab].find(x => x.id === id);
     if (!p) return;
-    const body = fld('p_name', 'Name', p.name) + fld('p_role', 'Role', p.role) + fld('p_year', 'Year', p.year) + txt('p_desc', 'Desc', p.description);
-    openModal('Edit Project', body, () => { Object.assign(p, { name: g('p_name'), role: g('p_role'), year: g('p_year'), description: g('p_desc') }); renderAll(); });
+    const body = fld('p_name', 'Name', p.name) + fld('p_img', 'Image URL', p.img) + fld('p_role', 'Role', p.role) + fld('p_year', 'Year', p.year) + fld('p_link', 'Result Link', p.link) + txt('p_desc', 'Desc', p.description);
+    openModal('Edit Project', body, () => { Object.assign(p, { name: g('p_name'), img: g('p_img'), role: g('p_role'), year: g('p_year'), link: g('p_link'), description: g('p_desc') }); renderAll(); });
 }
 
 function openAddItem(type) {
     let body = '';
-    if (type === 'cert') body = fld('i_name', 'Cert Name') + fld('i_prov', 'Provider');
-    else if (type === 'workshop') body = fld('i_name', 'Workshop Name');
-    else if (type === 'competition_award') body = fld('i_name', 'Award Name') + fld('i_res', 'Result');
-    else if (type === 'leadership') body = fld('i_name', 'Activity') + fld('i_role', 'Role') + fld('i_org', 'Org') + fld('i_date', 'Date') + txt('i_desc', 'Desc');
+    if (type === 'cert') body = fld('i_name', 'Cert Name') + fld('i_prov', 'Provider') + fld('i_img', 'Image URL');
+    else if (type === 'workshop') body = fld('i_name', 'Workshop Name') + fld('i_img', 'Image URL');
+    else if (type === 'competition_award') body = fld('i_name', 'Award Name') + fld('i_res', 'Result') + fld('i_img', 'Image URL');
+    else if (type === 'leadership') body = fld('i_name', 'Activity') + fld('i_role', 'Role') + fld('i_org', 'Org') + fld('i_date', 'Date') + fld('i_img', 'Image URL') + txt('i_desc', 'Desc');
 
     openModal('Add Item', body, () => {
         const item = { id: uid() };
-        if (type === 'cert') Object.assign(item, { name: g('i_name'), provider: g('i_prov') });
-        else if (type === 'workshop') Object.assign(item, { name: g('i_name') });
-        else if (type === 'competition_award') Object.assign(item, { name: g('i_name'), result: g('i_res') });
-        else if (type === 'leadership') Object.assign(item, { name: g('i_name'), role: g('i_role'), org: g('i_org'), date: g('i_date'), desc: g('i_desc') });
+        if (type === 'cert') Object.assign(item, { name: g('i_name'), provider: g('i_prov'), img: g('i_img') });
+        else if (type === 'workshop') Object.assign(item, { name: g('i_name'), img: g('i_img') });
+        else if (type === 'competition_award') Object.assign(item, { name: g('i_name'), result: g('i_res'), img: g('i_img') });
+        else if (type === 'leadership') Object.assign(item, { name: g('i_name'), role: g('i_role'), org: g('i_org'), date: g('i_date'), desc: g('i_desc'), img: g('i_img') });
 
         if (type === 'cert') data.selfDev.certs.push(item);
         else if (type === 'workshop') data.selfDev.workshops.push(item);
@@ -257,8 +252,8 @@ function openAddItem(type) {
 function openEditLeadership(id) {
     const i = data.leadership.find(x => x.id === id);
     if (!i) return;
-    const body = fld('i_name', 'Activity', i.name) + fld('i_role', 'Role', i.role) + fld('i_org', 'Org', i.org) + fld('i_date', 'Date', i.date) + txt('i_desc', 'Desc', i.desc);
-    openModal('Edit Activity', body, () => { Object.assign(i, { name: g('i_name'), role: g('i_role'), org: g('i_org'), date: g('i_date'), desc: g('i_desc') }); renderAll(); });
+    const body = fld('i_name', 'Activity', i.name) + fld('i_role', 'Role', i.role) + fld('i_org', 'Org', i.org) + fld('i_date', 'Date', i.date) + fld('i_img', 'Image URL', i.img) + txt('i_desc', 'Desc', i.desc);
+    openModal('Edit Activity', body, () => { Object.assign(i, { name: g('i_name'), role: g('i_role'), org: g('i_org'), date: g('i_date'), desc: g('i_desc'), img: g('i_img') }); renderAll(); });
 }
 
 function deleteProject(id) { data.experience[currentTab] = data.experience[currentTab].filter(x => x.id !== id); renderAll(); }
