@@ -233,8 +233,8 @@
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       
-      // สร้างสะเก็ดไฟที่ปลายเมาส์ (หางว่าว) - ปรับให้เยอะขึ้นและสว่างขึ้น
-      for (let i = 0; i < 5; i++) {
+      // สร้างสะเก็ดไฟสีฟ้า - ลดจำนวนลงให้ดู Smooth (เหลือแค่ 1-2 ดวงต่อการขยับ)
+      if (Math.random() > 0.5) {
         stars.push(new Spark(mouse.x, mouse.y));
       }
     });
@@ -242,17 +242,17 @@
     class Spark {
       constructor(x, y) {
         this.x = x; this.y = y;
-        this.size = Math.random() * 5 + 2; // ขนาดใหญ่ขึ้น
-        this.speedX = Math.random() * 4 - 2;
-        this.speedY = Math.random() * 4 - 2;
+        this.size = Math.random() * 3 + 1.5; // ขนาดกำลังดี
+        this.speedX = Math.random() * 2 - 1;
+        this.speedY = Math.random() * 2 - 1;
         this.opacity = 1;
-        // สีทองสว่างๆ เหมือนสะเก็ดไฟจริง
-        this.color = Math.random() > 0.5 ? '#FFD700' : '#FFFFFF';
+        // สีฟ้า Cyan นวลๆ
+        this.color = '#00e5ff';
         this.isSpark = true;
       }
       draw() {
         ctx.fillStyle = this.color;
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 15;
         ctx.shadowColor = this.color;
         ctx.globalAlpha = this.opacity;
         ctx.beginPath();
@@ -264,8 +264,8 @@
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
-        this.opacity -= 0.03;
-        if (this.size > 0.1) this.size -= 0.1;
+        this.opacity -= 0.015; // จางช้าลงเพื่อให้ดูนุ่มนวล
+        if (this.size > 0.1) this.size -= 0.05;
       }
     }
 
