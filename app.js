@@ -80,7 +80,7 @@ function renderHero() {
     if (skillsEl) skillsEl.innerHTML = (p.skills || []).map(s => `<span class="skill-tag">${esc(s)}</span>`).join('') + (editMode ? `<button class="skill-tag" onclick="openEditPersonal()" style="border:1px dashed var(--primary); color:var(--primary)">+ Edit</button>` : '');
     const linksCont = document.getElementById('heroLinks');
     if (linksCont) {
-        const links = [{ key: 'email', icon: '✉️', label: 'Email', url: `mailto:${c.email}` }, { key: 'github', icon: '⌥', label: 'GitHub', url: c.github }, { key: 'linkedin', icon: 'in', label: 'LinkedIn', url: c.linkedin }, { key: 'website', icon: '🌐', label: 'Website', url: c.website }].filter(l => c[l.key]);
+        const links = [{ key: 'email', icon: '✉️', label: 'Contact Me', url: `mailto:${c.email}` }, { key: 'github', icon: '⌥', label: 'GitHub', url: c.github }, { key: 'linkedin', icon: 'in', label: 'LinkedIn', url: c.linkedin }, { key: 'website', icon: '🌐', label: 'Website', url: c.website }].filter(l => c[l.key]);
         linksCont.innerHTML = links.map(l => `<a href="${esc(l.url)}" target="_blank" class="hero-link ${l.key === 'email' ? 'email-cta' : 'social-icon'}"><span class="icon">${l.icon}</span><span class="label">${esc(l.label)}</span></a>`).join('') + (editMode ? `<button class="hero-link social-icon" onclick="openEditPersonal()" style="background:var(--primary); color:#fff">✏️</button>` : '');
     }
 }

@@ -39,6 +39,10 @@ body {
   transition: background 0.5s ease, color 0.5s ease;
 }
 
+.edge-glow { position: fixed; top: 0; width: 2px; height: 100vh; z-index: 9999; opacity: 0.8; pointer-events: none; }
+.edge-left { left: 0; background: var(--primary); box-shadow: 0 0 30px 10px var(--primary); }
+.edge-right { right: 0; background: var(--cyan); box-shadow: 0 0 30px 10px var(--cyan); }
+
 /* ชื่อจริง - ใช้ Gradient เสมอ */
 #heroName {
   font-size: 3.5rem;
