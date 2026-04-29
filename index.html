@@ -10,6 +10,22 @@
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap"
     rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* บังคับหัวข้อให้แสดงผล 100% ป้องกันปัญหาบน GitHub Pages */
+    .section-header-pro h2, .section-header-pro .line {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: none !important;
+      display: block !important;
+    }
+    .section-header-pro h2 {
+      color: #ffffff !important; /* สีสำรองถ้า Gradient ไม่ติด */
+      background: linear-gradient(to right, #ffffff, #0ea5e9) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+  </style>
 </head>
 
 <body>
