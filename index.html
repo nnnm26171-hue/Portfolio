@@ -4,27 +4,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
-  <link rel="stylesheet" href="style.css?v=999">
+  <title>My Portfolio (Updated)</title>
+  <link rel="stylesheet" href="style.css?v=1.1">
   <link
     href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap"
     rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     /* บังคับหัวข้อให้แสดงผล 100% ป้องกันปัญหาบน GitHub Pages */
-    .section-header-pro {
-      background: red !important; /* ทดสอบว่ากล่องขึ้นไหม */
-      padding: 20px !important;
+    .section-header-pro h2, .section-header-pro .line {
       opacity: 1 !important;
       visibility: visible !important;
-      display: flex !important;
-    }
-    .section-header-pro h2, .section-header-pro .line, .section-header-pro span {
-      opacity: 1 !important;
-      visibility: visible !important;
-      color: white !important;
+      transform: none !important;
       display: block !important;
     }
+    .section-header-pro h2 {
+      color: #ffffff !important;
+      background: linear-gradient(to right, #ffffff, #0ea5e9) !important;
+      -webkit-background-clip: text !important;
+      background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+
+    .edit-bar {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      background: rgba(10, 10, 20, 0.9) !important; 
+      padding: 0.8rem 2.5rem !important;
+      border-radius: 100px;
+      display: flex; gap: 2rem !important;
+      border: 1px solid var(--primary); 
+      z-index: 99999 !important;
+      align-items: center !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .edit-bar button, .edit-bar span, .edit-bar label { 
+      background: transparent; border: none; color: #fff !important; 
+      font-weight: 600 !important; cursor: pointer; font-size: 0.85rem !important;
+      margin: 0 !important; display: flex; align-items: center; white-space: nowrap;
+    }
+    body.light-mode .edit-bar { background: rgba(255, 255, 255, 0.95) !important; border-color: var(--primary) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    body.light-mode .edit-bar button, body.light-mode .edit-bar span, body.light-mode .edit-bar label { color: #0f172a !important; }
   </style>
 </head>
 
@@ -77,7 +96,7 @@
   <section class="section section-page" id="experience">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">01 - FORCE</span>
+        <span class="label">01</span>
         <h2>Professional Experience</h2>
         <div class="line"></div>
       </div>
@@ -91,7 +110,7 @@
   <section class="section section-page" id="selfdev">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">02 - FORCE</span>
+        <span class="label">02</span>
         <h2>Self-Development</h2>
         <div class="line"></div>
       </div>
@@ -109,7 +128,7 @@
   <section class="section section-page" id="awards">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">03 - FORCE</span>
+        <span class="label">03</span>
         <h2>Awards</h2>
         <div class="line"></div>
       </div>
@@ -123,7 +142,7 @@
   <section class="section section-page" id="leadership">
     <div class="container">
       <div class="section-header-pro">
-        <span class="label">04 - FORCE</span>
+        <span class="label">04</span>
         <h2>Leadership & Volunteer</h2>
         <div class="line"></div>
       </div>
@@ -151,33 +170,6 @@
     style="position:fixed; bottom:2rem; right:2rem; background:var(--primary); color:white; padding:1rem 2rem; border-radius:10px; transform:translateY(200%); transition:0.3s;">
   </div>
 
-  <style>
-    .edit-bar {
-      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-      background: rgba(10, 10, 20, 0.9) !important; 
-      padding: 0.8rem 2.5rem !important; /* เพิ่ม padding ข้าง */
-      border-radius: 100px;
-      display: flex; gap: 2rem !important; /* เว้นระยะห่างให้เท่ากัน */
-      border: 1px solid var(--primary); 
-      z-index: 99999 !important;
-      align-items: center !important;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-    .edit-bar button, .edit-bar span, .edit-bar label { 
-      background: transparent; 
-      border: none; 
-      color: #fff !important; 
-      font-weight: 600 !important; 
-      cursor: pointer; 
-      font-size: 0.85rem !important; /* ขนาดเท่ากันหมด */
-      margin: 0 !important;
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-    }
-    body.light-mode .edit-bar { background: rgba(255, 255, 255, 0.95) !important; border-color: var(--primary) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-    body.light-mode .edit-bar button, body.light-mode .edit-bar span, body.light-mode .edit-bar label { color: #0f172a !important; }
-  </style>
   <div class="edit-bar" id="editBar" style="display:none;">
     <span id="visitorCount">📊 Visits: Loading...</span>
     <button onclick="exportData()">Export JSON</button>
@@ -185,61 +177,55 @@
   </div>
 
   <script>
-    // --- SECURE EDIT TRIGGER & MINIMAL SPARKS ---
-    const canvas = document.getElementById('spark-canvas');
-    const ctx = canvas.getContext('2d');
+    const sparkCanvas = document.getElementById('spark-canvas');
+    const ctx = sparkCanvas.getContext('2d');
     let sparks = [];
-    const mouse = { x: 0, y: 0 };
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      // สะเก็ดไฟสีฟ้า Neon (Blue Fire Sparks)
-      if (Math.random() > 0.85) {
+    function resize() { sparkCanvas.width = window.innerWidth; sparkCanvas.height = window.innerHeight; }
+    window.addEventListener('resize', resize); resize();
+    function createSpark(x, y, color) {
+      for (let i = 0; i < 8; i++) {
         sparks.push({
-          x: mouse.x, y: mouse.y,
-          size: Math.random() * 4 + 1,
-          speedX: Math.random() * 3 - 1.5,
-          speedY: Math.random() * 3 - 1.5,
+          x, y,
+          size: Math.random() * 3 + 1,
+          speedX: (Math.random() - 0.5) * 5,
+          speedY: (Math.random() - 0.5) * 5,
           opacity: 1,
-          color: Math.random() > 0.5 ? '#00e5ff' : '#00b8ff' // ฟ้า Cyan และ ฟ้าเข้ม
+          color: color || '#0ea5e9'
         });
       }
+    }
+    document.addEventListener('mousemove', (e) => {
+      createSpark(e.clientX, e.clientY, document.body.classList.contains('light-mode') ? '#0ea5e9' : '#8b5cf6');
+      const outline = document.getElementById('cursor-outline');
+      const glow = document.getElementById('cursor-glow');
+      if (outline) { outline.style.left = e.clientX + 'px'; outline.style.top = e.clientY + 'px'; }
+      if (glow) { glow.style.left = e.clientX + 'px'; glow.style.top = e.clientY + 'px'; }
     });
-
     function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, sparkCanvas.width, sparkCanvas.height);
+      requestAnimationFrame(animate);
       for (let i = 0; i < sparks.length; i++) {
         let s = sparks[i];
         s.x += s.speedX; s.y += s.speedY;
         s.opacity -= 0.02;
-        
         ctx.fillStyle = s.color;
         ctx.globalAlpha = s.opacity;
-        ctx.beginPath(); 
-        // วาดเป็นสี่เหลี่ยมเล็กๆ (Square Sparks) แทนวงกลม
-        ctx.fillRect(s.x, s.y, s.size, s.size); 
-        
+        ctx.beginPath();
+        ctx.fillRect(s.x, s.y, s.size, s.size);
         ctx.globalAlpha = 1;
         if (s.opacity <= 0) { sparks.splice(i, 1); i--; }
       }
-      requestAnimationFrame(animate);
     }
     animate();
 
-    document.addEventListener('dblclick', (e) => {
-        if (e.target.id === 'heroName' || e.target.closest('#heroName')) {
-            toggleEditMode();
-        }
+    document.addEventListener('mousedown', () => { 
+      const outline = document.getElementById('cursor-outline');
+      if (outline) outline.classList.add('clicking'); 
     });
-
-
-    
-    document.addEventListener('mousedown', () => { if(outline) outline.classList.add('clicking'); });
-    document.addEventListener('mouseup', () => { if(outline) outline.classList.remove('clicking'); });
+    document.addEventListener('mouseup', () => { 
+      const outline = document.getElementById('cursor-outline');
+      if (outline) outline.classList.remove('clicking'); 
+    });
   </script>
   <script src="app.js"></script>
 </body>
