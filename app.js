@@ -182,6 +182,21 @@ function renderAll() {
 
 function switchTab(t) { currentTab = t; renderAll(); }
 
+// --- SECRET EDIT TRIGGER ---
+// ดับเบิ้ลคลิกที่ชื่อเพื่อเปิดโหมดแก้ไข
+setTimeout(() => {
+    const heroName = document.getElementById('heroName');
+    if (heroName) {
+        heroName.addEventListener('dblclick', () => toggleEditMode());
+        heroName.title = 'Admin Access';
+    }
+    // ซ่อนปุ่ม Edit เดิมไม่ให้คนเห็น
+    const oldBtn = document.getElementById('edit-mode-toggle');
+    if (oldBtn) oldBtn.style.display = 'none';
+    const oldBtn2 = document.getElementById('editToggleBtn');
+    if (oldBtn2) oldBtn2.style.display = 'none';
+}, 1000);
+
 function toggleEditMode() {
     if (!editMode) {
         const pw = prompt("กรุณาใส่รหัสผ่านเพื่อเข้าสู่โหมดแก้ไข:");
@@ -189,8 +204,6 @@ function toggleEditMode() {
     }
     editMode = !editMode;
     document.body.classList.toggle('edit-mode', editMode);
-    const btn = document.getElementById('editToggleBtn');
-    if (btn) btn.textContent = editMode ? '✓ Save' : 'Edit';
     document.getElementById('editBar').style.display = editMode ? 'flex' : 'none';
     if (!editMode) save();
     renderAll();

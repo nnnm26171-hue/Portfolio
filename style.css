@@ -645,6 +645,38 @@ body.light-mode .modal-content {
 }
 .edit-bar button { background: transparent; border: none; color: #fff; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
 
+/* ========== FORCE SUPER BRIGHT LIGHT MODE (BOTTOM OF FILE) ========== */
+body.light-mode {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  color: #000000 !important;
+}
+
+body.light-mode .card-glass, 
+body.light-mode .project-card, 
+body.light-mode .skill-card,
+body.light-mode .experience-card,
+body.light-mode .award-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+  color: #000000 !important;
+}
+
+body.light-mode h1, 
+body.light-mode h2, 
+body.light-mode h3, 
+body.light-mode p, 
+body.light-mode span, 
+body.light-mode label {
+  color: #000000 !important;
+}
+
+body.light-mode .navbar {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
 /* ========== LEADERSHIP / ACTIVITIES ========== */
 .leadership-grid { display: grid; gap: 1.5rem; margin-top: 1rem; }
 .activity-card {
