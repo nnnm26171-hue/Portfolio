@@ -147,6 +147,22 @@
     <label style="cursor:pointer; color:white; background:rgba(255,255,255,0.1); padding:0.4rem 1rem; border-radius:6px;">Import JSON<input type="file" onchange="importData(event)" style="display:none"></label>
   </div>
 
+  <script>
+    // CURSOR MOVEMENT SCRIPT
+    const dot = document.getElementById('cursor-dot');
+    const outline = document.getElementById('cursor-outline');
+    const glow = document.getElementById('cursor-glow');
+
+    window.addEventListener('mousemove', (e) => {
+      const { clientX: x, clientY: y } = e;
+      if(dot) dot.style.transform = `translate(${x}px, ${y}px)`;
+      if(outline) outline.style.transform = `translate(${x - 20}px, ${y - 20}px)`;
+      if(glow) glow.style.transform = `translate(${x}px, ${y}px)`;
+    });
+
+    document.addEventListener('mousedown', () => { if(outline) outline.style.transform += ' scale(0.8)'; });
+    document.addEventListener('mouseup', () => { if(outline) outline.style.transform = outline.style.transform.replace(' scale(0.8)', ''); });
+  </script>
   <script src="app.js"></script>
 </body>
 

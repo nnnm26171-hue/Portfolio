@@ -97,10 +97,15 @@ body.light-mode .hero-title {
   font-weight: 700;
 }
 
-/* ========== PERFORMANCE MODE ========== */
-.bg-orb, .grain-overlay, #cursor-dot, #cursor-outline, #cursor-glow { display: none !important; }
-html, body { cursor: auto !important; }
-a, button, .tab-btn, .edit-btn-mini { cursor: pointer !important; }
+/* ========== ANIMATED BACKGROUND & CURSOR EFFECTS ========== */
+.bg-orb { 
+  display: block !important; 
+}
+#cursor-dot, #cursor-outline, #cursor-glow { 
+  display: block !important; 
+}
+html, body { cursor: none !important; } /* ซ่อนเมาส์ปกติเพื่อใช้เมาส์ไฟ */
+a, button, .tab-btn, .edit-btn-mini { cursor: none !important; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
@@ -514,19 +519,20 @@ body.light-mode .modal-content {
 .card-glass { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r); padding: 1.5rem; }
 .item-row { padding: 1rem 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 
-/* ========== CURSOR RESET ========== */
-html, body { 
-  cursor: default; 
+/* ========== CUSTOM CURSOR ACTIVE ========== */
+#cursor-dot {
+  width: 8px; height: 8px; background: #fff; border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 10000;
 }
-
-a, button, .tab-btn, .edit-btn-mini, [onclick] { 
-  cursor: pointer; 
+#cursor-outline {
+  width: 40px; height: 40px; border: 2px solid var(--primary); border-radius: 50%;
+  position: fixed; pointer-events: none; z-index: 9999;
+  transition: transform 0.15s ease-out;
 }
-
-/* ซ่อนเศษซาก Custom Cursor เดิม */
-#cursor-dot, #cursor-outline, #cursor-glow { 
-  display: none !important; 
-  pointer-events: none; 
+#cursor-glow {
+  width: 300px; height: 300px; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+  position: fixed; pointer-events: none; z-index: 9998;
+  transform: translate(-50%, -50%); opacity: 0.5;
 }
 
 /* ========== SMOOTH REVEAL ========== */
