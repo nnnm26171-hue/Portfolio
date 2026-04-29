@@ -121,7 +121,7 @@ function renderSelfDev() {
                 <strong>${esc(i.name)}</strong> ${i.provider ? `• ${esc(i.provider)}` : ''}
                 ${editMode ? `
                     <div class="item-actions">
-                        <button onclick="openEditItem('${type}','${i.id}')">✏️</button>
+                        <button onclick="openEditItem('${type}','${i.id}')">✏️ Edit</button>
                         <button onclick="deleteItem('${type}','${i.id}')">✕</button>
                     </div>` : ''}
             </div>
@@ -143,7 +143,7 @@ function renderAwards() {
                     <strong>${esc(i.result)}</strong> - ${esc(i.name)}
                     ${editMode ? `
                         <div class="item-actions">
-                            <button onclick="openEditItem('competitions','${i.id}')">✏️</button>
+                            <button onclick="openEditItem('competitions','${i.id}')">✏️ Edit</button>
                             <button onclick="deleteItem('competitions','${i.id}')">✕</button>
                         </div>` : ''}
                 </div>
@@ -204,14 +204,17 @@ const openModal = (title, fieldsHtml, saveFn) => {
 };
 const closeModal = () => document.getElementById('modal').classList.remove('show');
 document.getElementById('modalSaveBtn').onclick = () => { if (modalSave) modalSave(); closeModal(); };
+
+// เน้นช่อง Image URL ให้เป็นสีพิเศษ
+const imgFld = (id, label, val = '') => `<div class="f-group img-field"><label style="color:#00e5ff; font-weight:bold;">📸 ${label} (วางลิงก์รูปที่นี่)</label><input id="f_${id}" value="${esc(val)}" placeholder="https://example.com/image.jpg"></div>`;
 const fld = (id, label, val = '') => `<div class="f-group"><label>${label}</label><input id="f_${id}" value="${esc(val)}"></div>`;
 const txt = (id, label, val = '') => `<div class="f-group"><label>${label}</label><textarea id="f_${id}">${esc(val)}</textarea></div>`;
 const g = id => document.getElementById('f_' + id)?.value || '';
 
 function openEditPersonal() {
     const p = data.personal, c = p.contact;
-    const body = fld('p_name', 'Name', p.name) + fld('p_avatar', 'Avatar URL (Image)', p.avatar) + fld('p_title', 'Title', p.title) + fld('p_uni', 'University', p.university) + fld('p_skills', 'Skills (CSV)', (p.skills||[]).join(',')) + fld('c_email', 'Email', c.email) + fld('c_github', 'GitHub', c.github) + fld('c_linkedin', 'LinkedIn', c.linkedin) + fld('c_website', 'Web', c.website);
-    openModal('Edit Personal', body, () => {
+    const body = fld('p_name', 'Full Name', p.name) + imgFld('p_avatar', 'Avatar / Profile Image', p.avatar) + fld('p_title', 'Title', p.title) + fld('p_uni', 'University', p.university) + fld('p_skills', 'Skills (CSV)', (p.skills||[]).join(',')) + fld('c_email', 'Email', c.email) + fld('c_github', 'GitHub', c.github) + fld('c_linkedin', 'LinkedIn', c.linkedin) + fld('c_website', 'Web', c.website);
+    openModal('Edit Personal Info', body, () => {
         p.name = g('p_name'); p.avatar = g('p_avatar'); p.title = g('p_title'); p.university = g('p_uni'); p.skills = g('p_skills').split(',').map(s=>s.trim());
         c.email = g('c_email'); c.github = g('c_github'); c.linkedin = g('c_linkedin'); c.website = g('c_website');
         renderAll();
@@ -219,8 +222,8 @@ function openEditPersonal() {
 }
 
 function openAddProject() {
-    const body = fld('p_name', 'Name') + fld('p_img', 'Image URL') + fld('p_role', 'Role') + fld('p_year', 'Year') + fld('p_link', 'Result Link') + txt('p_desc', 'Description');
-    openModal('Add Project', body, () => {
+    const body = fld('p_name', 'Project Name') + imgFld('p_img', 'Project Image') + fld('p_role', 'Your Role') + fld('p_year', 'Year') + fld('p_link', 'Project Link') + txt('p_desc', 'Description');
+    openModal('Add New Project', body, () => {
         const p = { id: uid(), name: g('p_name'), img: g('p_img'), role: g('p_role'), year: g('p_year'), description: g('p_desc'), link: g('p_link') };
         if (!data.experience[currentTab]) data.experience[currentTab] = [];
         data.experience[currentTab].unshift(p);
@@ -231,18 +234,18 @@ function openAddProject() {
 function openEditProject(id) {
     const p = data.experience[currentTab].find(x => x.id === id);
     if (!p) return;
-    const body = fld('p_name', 'Name', p.name) + fld('p_img', 'Image URL', p.img) + fld('p_role', 'Role', p.role) + fld('p_year', 'Year', p.year) + fld('p_link', 'Result Link', p.link) + txt('p_desc', 'Desc', p.description);
+    const body = fld('p_name', 'Project Name', p.name) + imgFld('p_img', 'Project Image', p.img) + fld('p_role', 'Your Role', p.role) + fld('p_year', 'Year', p.year) + fld('p_link', 'Project Link', p.link) + txt('p_desc', 'Description', p.description);
     openModal('Edit Project', body, () => { Object.assign(p, { name: g('p_name'), img: g('p_img'), role: g('p_role'), year: g('p_year'), link: g('p_link'), description: g('p_desc') }); renderAll(); });
 }
 
 function openAddItem(type) {
     let body = '';
-    if (type === 'cert') body = fld('i_name', 'Cert Name') + fld('i_prov', 'Provider') + fld('i_img', 'Image URL');
-    else if (type === 'workshop') body = fld('i_name', 'Workshop Name') + fld('i_img', 'Image URL');
-    else if (type === 'competition_award') body = fld('i_name', 'Award Name') + fld('i_res', 'Result') + fld('i_img', 'Image URL');
-    else if (type === 'leadership') body = fld('i_name', 'Activity') + fld('i_role', 'Role') + fld('i_org', 'Org') + fld('i_date', 'Date') + fld('i_img', 'Image URL') + txt('i_desc', 'Desc');
+    if (type === 'cert') body = fld('i_name', 'Cert Name') + fld('i_prov', 'Provider') + imgFld('i_img', 'Certificate Image');
+    else if (type === 'workshop') body = fld('i_name', 'Workshop Name') + imgFld('i_img', 'Workshop Image');
+    else if (type === 'competition_award') body = fld('i_name', 'Award Name') + fld('i_res', 'Result') + imgFld('i_img', 'Award Image');
+    else if (type === 'leadership') body = fld('i_name', 'Activity') + fld('i_role', 'Role') + fld('i_org', 'Org') + fld('i_date', 'Date') + imgFld('i_img', 'Activity Image') + txt('i_desc', 'Desc');
 
-    openModal('Add Item', body, () => {
+    openModal('Add New Item', body, () => {
         const item = { id: uid() };
         if (type === 'cert') Object.assign(item, { name: g('i_name'), provider: g('i_prov'), img: g('i_img') });
         else if (type === 'workshop') Object.assign(item, { name: g('i_name'), img: g('i_img') });
@@ -265,9 +268,9 @@ function openEditItem(type, id) {
     if (!item) return;
 
     let body = '';
-    if (type === 'certs') body = fld('i_name', 'Cert Name', item.name) + fld('i_prov', 'Provider', item.provider) + fld('i_img', 'Image URL', item.img);
-    else if (type === 'workshops') body = fld('i_name', 'Workshop Name', item.name) + fld('i_img', 'Image URL', item.img);
-    else if (type === 'competitions') body = fld('i_res', 'Result', item.result) + fld('i_name', 'Award Name', item.name) + fld('i_img', 'Image URL', item.img);
+    if (type === 'certs') body = fld('i_name', 'Cert Name', item.name) + fld('i_prov', 'Provider', item.provider) + imgFld('i_img', 'Certificate Image', item.img);
+    else if (type === 'workshops') body = fld('i_name', 'Workshop Name', item.name) + imgFld('i_img', 'Workshop Image', item.img);
+    else if (type === 'competitions') body = fld('i_res', 'Result', item.result) + fld('i_name', 'Award Name', item.name) + imgFld('i_img', 'Award Image', item.img);
 
     openModal('Edit Item', body, () => {
         if (type === 'certs') Object.assign(item, { name: g('i_name'), provider: g('i_prov'), img: g('i_img') });
@@ -280,7 +283,7 @@ function openEditItem(type, id) {
 function openEditLeadership(id) {
     const i = data.leadership.find(x => x.id === id);
     if (!i) return;
-    const body = fld('i_name', 'Activity', i.name) + fld('i_role', 'Role', i.role) + fld('i_org', 'Org', i.org) + fld('i_date', 'Date', i.date) + fld('i_img', 'Image URL', i.img) + txt('i_desc', 'Desc', i.desc);
+    const body = fld('i_name', 'Activity', i.name) + fld('i_role', 'Role', i.role) + fld('i_org', 'Org', i.org) + fld('i_date', 'Date', i.date) + imgFld('i_img', 'Activity Image', i.img) + txt('i_desc', 'Desc', i.desc);
     openModal('Edit Activity', body, () => { Object.assign(i, { name: g('i_name'), role: g('i_role'), org: g('i_org'), date: g('i_date'), desc: g('i_desc'), img: g('i_img') }); renderAll(); });
 }
 
