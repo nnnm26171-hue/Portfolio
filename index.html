@@ -179,17 +179,23 @@
         this.y = Math.random() * canvas.height;
         this.baseX = this.x;
         this.baseY = this.y;
-        this.size = Math.random() * 2 + 0.5;
-        this.density = (Math.random() * 30) + 1;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.density = (Math.random() * 40) + 5;
+        this.opacity = Math.random();
+        this.twinkleSpeed = Math.random() * 0.05 + 0.01;
       }
       draw() {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.closePath();
         ctx.fill();
       }
       update() {
+        // ดาวกะพริบ
+        this.opacity += this.twinkleSpeed;
+        if (this.opacity > 1 || this.opacity < 0.2) this.twinkleSpeed *= -1;
+
         let dx = mouse.x - this.x;
         let dy = mouse.y - this.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
@@ -206,11 +212,11 @@
         } else {
           if (this.x !== this.baseX) {
             let dx = this.x - this.baseX;
-            this.x -= dx / 20;
+            this.x -= dx / 15;
           }
           if (this.y !== this.baseY) {
             let dy = this.y - this.baseY;
-            this.y -= dy / 20;
+            this.y -= dy / 15;
           }
         }
       }
