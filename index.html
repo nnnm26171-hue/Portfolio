@@ -14,17 +14,17 @@
 
 <body>
   <canvas id="spark-canvas"></canvas>
-  <div class="grain-overlay"></div>
-  <div class="bg-orb orb-1"></div>
-  <div class="bg-orb orb-2"></div>
+  <div class="bg-container">
+    <div class="grain-overlay"></div>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="shooting-star star-1" style="top:10%; left:20%; animation-delay: 0s;"></div>
+    <div class="shooting-star star-2" style="top:30%; left:50%; animation-delay: 2s;"></div>
+    <div class="shooting-star star-3" style="top:60%; left:80%; animation-delay: 4s;"></div>
+  </div>
   <div id="cursor-dot"></div>
   <div id="cursor-outline"></div>
   <div id="cursor-glow"></div>
-  
-  <!-- Shooting Stars -->
-  <div class="shooting-star star-1"></div>
-  <div class="shooting-star star-2"></div>
-  <div class="shooting-star star-3"></div>
 
   <nav class="navbar">
     <div class="nav-right-group">
@@ -79,20 +79,13 @@
         <h2>Self-Development</h2>
         <div class="line"></div>
       </div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+        <button id="addCertBtn" onclick="openAddItem('cert')" style="display:none">+</button>
+        <button id="addWorkshopBtn" onclick="openAddItem('workshop')" style="display:none">+</button>
+      </div>
       <div class="grid-2">
-        <div class="card-glass" style="padding:1.5rem">
-          <div style="display:flex;justify-content:space-between">
-            <h3>Certificates</h3><button id="addCertBtn" onclick="openAddItem('cert')" style="display:none">+</button>
-          </div>
-          <div id="certsGrid"></div>
-        </div>
-        <div class="card-glass" style="padding:1.5rem">
-          <div style="display:flex;justify-content:space-between">
-            <h3>Workshops</h3><button id="addWorkshopBtn" onclick="openAddItem('workshop')"
-              style="display:none">+</button>
-          </div>
-          <div id="workshopsGrid"></div>
-        </div>
+        <div id="certsGrid"></div>
+        <div id="workshopsGrid"></div>
       </div>
     </div>
   </section>
@@ -104,13 +97,10 @@
         <h2>Awards</h2>
         <div class="line"></div>
       </div>
-      <div class="card-glass" style="padding:1.5rem">
-        <div style="display:flex;justify-content:space-between">
-          <h3>Competitions</h3><button id="addCompBtn" onclick="openAddItem('competition_award')"
-            style="display:none">+</button>
-        </div>
-        <div id="competitionsGrid"></div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+        <button id="addCompBtn" onclick="openAddItem('competition_award')" style="display:none">+</button>
       </div>
+      <div id="competitionsGrid"></div>
     </div>
   </section>
 
@@ -121,8 +111,8 @@
         <h2>Leadership & Volunteer</h2>
         <div class="line"></div>
       </div>
-      <div style="display:flex;justify-content:space-between;margin-bottom:2rem">
-        <h3>Activities</h3><button id="addLeaderBtn" onclick="openAddItem('leadership')" style="display:none">+</button>
+      <div style="display:flex;justify-content:space-between;">
+        <button id="addLeaderBtn" onclick="openAddItem('leadership')" style="display:none">+</button>
       </div>
       <div id="leadershipGrid"></div>
     </div>
@@ -145,11 +135,37 @@
     style="position:fixed; bottom:2rem; right:2rem; background:var(--primary); color:white; padding:1rem 2rem; border-radius:10px; transform:translateY(200%); transition:0.3s;">
   </div>
 
-  <div class="edit-bar" id="editBar"
-    style="display:none; position:fixed; bottom:0; width:100%; background:rgba(13,13,26,0.95); padding:1rem; gap:1.5rem; justify-content:center; align-items:center; z-index:9000;">
-    <span id="visitorCount" style="color:#0ea5e9; font-weight:bold; font-size:0.9rem; margin-right:1rem">📊 Visits: Loading...</span>
+  <style>
+    .edit-bar {
+      position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+      background: rgba(10, 10, 20, 0.9) !important; 
+      padding: 0.8rem 2.5rem !important; /* เพิ่ม padding ข้าง */
+      border-radius: 100px;
+      display: flex; gap: 2rem !important; /* เว้นระยะห่างให้เท่ากัน */
+      border: 1px solid var(--primary); 
+      z-index: 99999 !important;
+      align-items: center !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .edit-bar button, .edit-bar span, .edit-bar label { 
+      background: transparent; 
+      border: none; 
+      color: #fff !important; 
+      font-weight: 600 !important; 
+      cursor: pointer; 
+      font-size: 0.85rem !important; /* ขนาดเท่ากันหมด */
+      margin: 0 !important;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+    body.light-mode .edit-bar { background: rgba(255, 255, 255, 0.95) !important; border-color: var(--primary) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    body.light-mode .edit-bar button, body.light-mode .edit-bar span, body.light-mode .edit-bar label { color: #0f172a !important; }
+  </style>
+  <div class="edit-bar" id="editBar" style="display:none;">
+    <span id="visitorCount">📊 Visits: Loading...</span>
     <button onclick="exportData()">Export JSON</button>
-    <label style="cursor:pointer; color:white; background:rgba(255,255,255,0.1); padding:0.4rem 1rem; border-radius:6px;">Import JSON<input type="file" onchange="importData(event)" style="display:none"></label>
+    <label>Import JSON<input type="file" onchange="importData(event)" style="display:none"></label>
   </div>
 
   <script>
@@ -204,10 +220,7 @@
         }
     });
 
-    setInterval(() => {
-        const btn = document.getElementById('editToggleBtn');
-        if (btn) btn.style.display = 'none';
-    }, 500);
+
     
     document.addEventListener('mousedown', () => { if(outline) outline.classList.add('clicking'); });
     document.addEventListener('mouseup', () => { if(outline) outline.classList.remove('clicking'); });

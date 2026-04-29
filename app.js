@@ -160,11 +160,11 @@ function renderLeadership() {
             <div class="activity-card">
                 ${i.img ? `<img class="activity-img" src="${esc(i.img)}">` : `<div class="activity-img" style="background:rgba(255,255,255,0.05)"></div>`}
                 <div class="activity-info">
-                    <span class="activity-role">${esc(i.role)}</span>
-                    <h3 class="activity-name">${esc(i.name)}</h3>
-                    <span class="activity-org">${esc(i.org)} • ${esc(i.date)}</span>
-                    <p class="activity-desc">${esc(i.desc)}</p>
-                    ${editMode ? `<div class="card-actions"><button onclick="openEditLeadership('${i.id}')">✏ Edit</button><button onclick="deleteItem('leadership','${i.id}')">🗑 Del</button></div>` : ''}
+                    <span class="activity-role">${esc(i.role || 'Role')}</span>
+                    <h3 class="activity-name">${esc(i.name || 'Activity Name')}</h3>
+                    <span class="activity-org">${esc(i.org || 'Organization')} • ${esc(i.date || 'Date')}</span>
+                    <p class="activity-desc">${esc(i.desc || '')}</p>
+                    ${editMode ? `<div class="card-actions" style="display:flex !important;"><button onclick="openEditLeadership('${i.id}')" style="display:inline-block !important;">✏ Edit</button><button onclick="deleteItem('leadership','${i.id}')" style="display:inline-block !important;">🗑 Del</button></div>` : ''}
                 </div>
             </div>`).join('');
     }
@@ -182,15 +182,17 @@ function renderAll() {
 
 function switchTab(t) { currentTab = t; renderAll(); }
 
-// --- SECRET EDIT TRIGGER (ROBUST) ---
+// --- SECRET EDIT TRIGGER (HIDDEN ON 'CSS' SKILL TAG) ---
 document.addEventListener('dblclick', (e) => {
-    // ถ้าดับเบิ้ลคลิกที่ชื่อ หรือ พื้นที่ใกล้เคียงชื่อ
-    if (e.target.id === 'heroName' || e.target.closest('#heroName')) {
+    // เข้าโหมดแก้ไขเมื่อดับเบิลคลิกที่คำว่า "CSS" เท่านั้น
+    if (e.target.innerText === 'CSS' || e.target.textContent === 'CSS') {
         toggleEditMode();
     }
 });
 
-// ซ่อนปุ่ม Edit ทุกตัวที่มีในหน้าเว็บ
+
+
+// ซ่อนปุ่ม Edit ทุกตัวเพื่อความเป็นส่วนตัว
 setInterval(() => {
     ['editToggleBtn', 'edit-mode-toggle', 'btn-edit-toggle'].forEach(id => {
         const btn = document.getElementById(id);
@@ -203,7 +205,8 @@ function toggleEditMode() {
     if (pw === "1234") {
         editMode = !editMode;
         document.body.classList.toggle('edit-mode', editMode);
-        document.getElementById('editBar').style.display = editMode ? 'flex' : 'none';
+        const editBar = document.getElementById('editBar');
+        if (editBar) editBar.style.display = editMode ? 'flex' : 'none';
         if (!editMode) save();
         renderAll();
         toast(editMode ? "Admin Mode: ON ✏️" : "Admin Mode: OFF 🔒");
