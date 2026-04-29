@@ -14,12 +14,12 @@
 
 /* --- MILKY WAY LIGHT MODE VARIABLES --- */
 body.light-mode {
-  --bg-color: #cbd5e1; /* ปรับพื้นหลังให้หม่นลงอีก */
+  --bg-color: #94a3b8; /* ปรับให้หม่นลงเป็นสีเทา Slate */
   --bg-image: none;
   --text-color: #000000;
-  --card-bg: rgba(255, 255, 255, 0.6);
+  --card-bg: rgba(255, 255, 255, 0.7);
   --border-color: rgba(0, 0, 0, 0.1);
-  --primary: #f97316; /* เปลี่ยนสีเน้นเป็นโทนส้มสะเก็ดไฟ */
+  --primary: #0ea5e9;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,7 +28,7 @@ body {
   background-color: var(--bg-color);
   background-image: var(--bg-image);
   background-attachment: fixed;
-  background-size: 100% 100%, 100% 100%, 400px 400px, 400px 400px;
+  background-size: 100% 100%;
   color: var(--text-color);
   font-family: 'Plus Jakarta Sans', sans-serif;
   line-height: 1.6;
@@ -36,19 +36,20 @@ body {
   transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* บังคับชื่อให้เห็นชัด 100% ในทุกโหมด */
+/* บังคับชื่อให้ดำสนิท 100% เท่านั้น */
 #heroName {
-  color: var(--text-color) !important;
-  background: none !important; /* ลบสีไล่เฉดทิ้ง */
-  -webkit-text-fill-color: var(--text-color) !important; /* บังคับสีตัวอักษร */
+  color: #000000 !important;
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
   font-weight: 900 !important;
   text-shadow: none !important;
+  opacity: 1 !important;
 }
 
-/* จัดระดับหน้าให้เท่ากันทุกหน้า ทั้งบนและล่าง */
+/* จัดระดับหน้าให้เท่ากันทุกหน้า */
 .section-page {
   padding-top: 120px !important;
-  padding-bottom: 120px !important; /* เพิ่มระยะห่างด้านล่างให้เท่ากัน */
+  padding-bottom: 120px !important;
   min-height: 100vh;
 }
 

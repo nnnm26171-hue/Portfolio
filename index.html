@@ -183,10 +183,16 @@
       for (let i = 0; i < sparks.length; i++) {
         let s = sparks[i];
         s.x += s.speedX; s.y += s.speedY;
+        s.size += 0.5; // วงกลมขยายตัวออก
         s.opacity -= 0.02;
-        ctx.fillStyle = s.color;
+        
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 2;
         ctx.globalAlpha = s.opacity;
-        ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); 
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2); 
+        ctx.stroke(); // วาดเป็นวงกลม (วงแหวน)
+        
         ctx.globalAlpha = 1;
         if (s.opacity <= 0) { sparks.splice(i, 1); i--; }
       }
