@@ -346,51 +346,46 @@ body.light-mode .btn-edit-toggle {
 .hero-link.social-icon .label { display: none; }
 
 .exp-tabs { 
-  display: flex; gap: 0.8rem; justify-content: center; margin-bottom: 3.5rem; flex-wrap: wrap; 
+  display: flex !important; gap: 1rem !important; justify-content: center !important; 
+  margin: 2rem 0 4rem 0 !important; flex-wrap: wrap !important; 
 }
 
 .tab-btn {
-  padding: 0.7rem 1.6rem; border-radius: 100px; 
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.03); 
-  color: var(--text-dim); font-weight: 700; font-size: 0.85rem;
-  cursor: pointer; transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  backdrop-filter: blur(10px);
-  display: flex; align-items: center; gap: 0.6rem;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  padding: 0.8rem 1.8rem !important; border-radius: 100px !important; 
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(255, 255, 255, 0.05) !important; 
+  color: #94a3b8 !important; font-weight: 800 !important; font-size: 0.9rem !important;
+  cursor: pointer !important; transition: all 0.3s ease !important;
+  backdrop-filter: blur(10px) !important;
+  display: flex !important; align-items: center !important; gap: 0.6rem !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
 }
 
 .tab-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--primary-light);
-  color: #fff;
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: #8b5cf6 !important;
+  color: #ffffff !important;
+  transform: translateY(-3px) !important;
 }
 
 .tab-btn.active { 
-  background: linear-gradient(135deg, var(--primary), var(--cyan)); 
-  color: #fff; 
-  border-color: rgba(255,255,255,0.3);
-  box-shadow: 0 10px 30px var(--primary-glow);
-  transform: scale(1.08);
+  background: linear-gradient(135deg, #8b5cf6, #22d3ee) !important; 
+  color: #ffffff !important; 
+  border-color: rgba(255,255,255,0.3) !important;
+  box-shadow: 0 10px 25px rgba(139, 92, 246, 0.5) !important;
+  transform: scale(1.1) !important;
 }
 
-/* ปรับแต่ง Tab ในโหมดสว่าง */
+/* บังคับโหมดสว่างให้สวยด้วย */
 body.light-mode .tab-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(0, 0, 0, 0.05);
-  color: #475569;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-body.light-mode .tab-btn:hover {
-  background: #fff;
-  color: #000;
-  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+  color: #1e293b !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
 }
 body.light-mode .tab-btn.active {
-  background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
-  color: #fff;
+  background: linear-gradient(135deg, #0ea5e9, #8b5cf6) !important;
+  color: #ffffff !important;
 }
 /* ========== PREMIUM MODAL ========== */
 .modal {
