@@ -133,6 +133,13 @@ a, button, .tab-btn, .edit-btn-mini, [onclick] {
   -webkit-text-fill-color: transparent !important;
   color: transparent !important; /* สำคัญสำหรับ Safari */
 }
+.section-header-pro h2, 
+.section-header-pro .line {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
 .section-header-pro .line {
   width: 80px;
   height: 4px;
